@@ -1,0 +1,15 @@
+<div class="login-page">
+  <div class="form">
+    <form class="login-form">
+      <h1>clinimed</h1>
+      <input type="text" placeholder="login" [(ngModel)]="login" name="login" />
+      <input
+        type="password"
+        placeholder="senha"
+        [(ngModel)]="senha"
+        name="senha"
+      />
+      <button class="btn btn-primary" (click)="doLogin()">login</button>
+    </form>
+  </div>
+</div>
