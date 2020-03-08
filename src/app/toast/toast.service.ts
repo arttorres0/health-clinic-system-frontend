@@ -18,8 +18,8 @@ export class ToastService {
     this.toast(new Toast({ type: ToastType.Error, message }));
   }
 
-  info(message: string) {
-    this.toast(new Toast({ type: ToastType.Info, message }));
+  success(message: string) {
+    this.toast(new Toast({ type: ToastType.Success, message }));
   }
 
   toast(toast: Toast) {

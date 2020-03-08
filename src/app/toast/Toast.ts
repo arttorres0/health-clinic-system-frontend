@@ -11,5 +11,5 @@ export class Toast {
 
 export enum ToastType {
   Error,
-  Info
+  Success
 }

@@ -28,7 +28,7 @@ export class ToastComponent implements OnInit {
         }
 
         this.toasts.push(toast);
-        setTimeout(() => this.removeToast(toast), 3000);
+        setTimeout(() => this.removeToast(toast), 2000);
       });
 
     this.routeSubscription = this.router.events.subscribe(event => {
@@ -61,7 +61,7 @@ export class ToastComponent implements OnInit {
 
     const toastTypeClass = {
       [ToastType.Error]: "toast-element alert alert-danger",
-      [ToastType.Info]: "toast-element alert alert-info"
+      [ToastType.Success]: "toast-element alert alert-success"
     };
 
     classes.push(toastTypeClass[toast.type]);
