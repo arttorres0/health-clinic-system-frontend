@@ -35,6 +35,16 @@ export class AuthService {
     localStorage.setItem("access-token", token);
   }
 
+  getLogin(): string {
+    let token = this.getToken();
+    if (!token) return null;
+
+    const decoded = jwt_decode(token);
+    if (decoded.login === undefined) return null;
+
+    return decoded.login;
+  }
+
   getTokenExpirationDate(token: string): Date {
     const decoded = jwt_decode(token);
 

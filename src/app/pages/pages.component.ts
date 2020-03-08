@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { AuthService } from "../auth/auth.service";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-pages",
@@ -6,10 +8,10 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./pages.component.scss"]
 })
 export class PagesComponent implements OnInit {
-  private sidebarIsHidden: boolean;
-  private isMobileSidebar: boolean;
+  sidebarIsHidden: boolean;
+  isMobileSidebar: boolean;
 
-  constructor() {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit() {
     this.setSidebarAttrs(window.innerWidth);
@@ -29,11 +31,23 @@ export class PagesComponent implements OnInit {
     }
   }
 
+  getClinicName(): string {
+    return environment.clinicName;
+  }
+
   showSidebar(): void {
     this.sidebarIsHidden = false;
   }
 
   hideSidebar(): void {
     this.sidebarIsHidden = true;
+  }
+
+  logout(): void {
+    this.authService.logout();
+  }
+
+  getUsername(): string {
+    return this.authService.getLogin();
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../auth/auth.service";
 import { Router } from "@angular/router";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-login",
@@ -17,6 +18,10 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  getClinicName(): string {
+    return environment.clinicName;
+  }
 
   doLogin(): void {
     //TODO: start loading service

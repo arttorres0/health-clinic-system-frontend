@@ -1,8 +1,11 @@
+@import "src/_colors.scss";
+
 .login-page {
   height: 100%;
   width: 100%;
   margin: 0;
   box-sizing: border-box;
+  background-color: $page-bg-color;
 }
 
 .form {
@@ -46,6 +49,11 @@
   border: 0;
   padding: 15px;
   color: #ffffff;
+  background-color: $sidebar-bg-color;
   border-radius: 0;
   cursor: pointer;
+}
+
+.form button:hover {
+  background-color: $sidebar-hover-color;
 }

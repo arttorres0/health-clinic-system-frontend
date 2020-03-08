@@ -1,21 +1,16 @@
-$sidebar-width: 250px;
-$page-header-height: 85px;
+@import "src/_colors.scss";
 
-p {
-  font-family: "Poppins", sans-serif;
-  font-size: 1.1em;
-  font-weight: 300;
-  line-height: 1.7em;
-  color: #999;
-}
+$sidebar-width: 250px;
+$page-header-height: 65px;
 
 a,
 a:hover,
 a:focus {
-  color: inherit;
   text-decoration: none;
   transition: all 0.3s;
 }
+
+//HEADER
 
 #page-header {
   height: $page-header-height;
@@ -27,24 +22,41 @@ a:focus {
 
 .navbar {
   height: 100%;
-  background: #fff;
+  background-color: $navbar-bg-color;
   border: none;
   border-radius: 0;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.navbar-btn {
-  box-shadow: none;
-  outline: none !important;
+.navbar .header-title {
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.navbar a {
+  color: $navbar-dark-color !important;
+}
+
+.navbar #sidebarCollapse,
+.navbar #logout {
+  background-color: $sidebar-bg-color;
   border: none;
 }
 
-.line {
-  width: 100%;
-  height: 1px;
-  border-bottom: 1px dashed #ddd;
-  margin: 40px 0;
+.navbar .header-user {
+  display: flex;
+  align-items: center;
 }
+
+.navbar .header-user p {
+  margin-bottom: 0;
+  margin-right: 15px;
+}
+
+//SIDEBAR
 
 #sidebar {
   width: $sidebar-width;
@@ -53,8 +65,8 @@ a:focus {
   left: -$sidebar-width;
   height: 100vh;
   z-index: 999;
-  background: #7386d5;
-  color: #fff;
+  background-color: $sidebar-bg-color;
+  color: $sidebar-light-color;
   transition: all 0.3s;
 }
 
@@ -64,23 +76,18 @@ a:focus {
 }
 
 #dismiss {
-  width: 35px;
-  height: 35px;
-  line-height: 35px;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 5px;
   text-align: center;
-  background: #7386d5;
+  background: $sidebar-hover-color;
   position: absolute;
   top: 10px;
   right: 10px;
-  cursor: pointer;
   -webkit-transition: all 0.3s;
   -o-transition: all 0.3s;
   transition: all 0.3s;
-}
-
-#dismiss:hover {
-  background: #fff;
-  color: #7386d5;
 }
 
 .overlay {
@@ -88,7 +95,7 @@ a:focus {
   position: fixed;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.7);
   z-index: 998;
   opacity: 0;
   transition: all 0.5s ease-in-out;
@@ -100,95 +107,78 @@ a:focus {
 }
 
 #sidebar .sidebar-header {
+  height: $page-header-height;
   padding: 20px;
-  background: #6d7fcc;
+  border-bottom: 1px solid $sidebar-hover-color;
 }
 
-#sidebar ul.components {
-  padding: 20px 0;
-  border-bottom: 1px solid #47748b;
+#sidebar .sidebar-header h3 {
+  font-size: 20px;
+  margin-bottom: 0;
+  color: $sidebar-lighter-color;
 }
 
-#sidebar ul p {
-  color: #fff;
-  padding: 10px;
+#sidebar ul.pages-list {
+  padding: 50px 0;
+  height: calc(100% - #{$page-header-height});
+}
+
+#sidebar ul li {
+  cursor: pointer;
+  outline: none;
 }
 
 #sidebar ul li a {
   padding: 10px;
-  font-size: 1.1em;
+  font-size: 14px;
+  color: $sidebar-light-color;
   display: block;
 }
 
-#sidebar ul li a:hover {
-  color: #7386d5;
-  background: #fff;
+#sidebar ul li a:hover,
+#sidebar ul li.active > a {
+  background-color: $sidebar-hover-color;
+  color: $sidebar-lighter-color;
 }
 
-#sidebar ul li.active > a,
-a[aria-expanded="true"] {
-  color: #fff;
-  background: #6d7fcc;
-}
-
-a[data-toggle="collapse"] {
-  position: relative;
-}
-
-.dropdown-toggle::after {
-  display: block;
-  position: absolute;
-  top: 50%;
-  right: 20px;
-  transform: translateY(-50%);
-}
-
-ul ul a {
-  font-size: 0.9em !important;
-  padding-left: 30px !important;
-  background: #6d7fcc;
-}
-
-ul.CTAs {
-  padding: 20px;
-}
-
-ul.CTAs a {
-  text-align: center;
-  font-size: 0.9em !important;
-  display: block;
-  border-radius: 5px;
-  margin-bottom: 5px;
-}
-
-a.download {
-  background: #fff;
-  color: #7386d5;
-}
-
-a.article,
-a.article:hover {
-  background: #6d7fcc !important;
-  color: #fff !important;
-}
+//PAGE-CONTAINER
 
 #page-container {
   width: 100%;
-  height: calc(100% - $page-header-height);
+  height: calc(100% - #{$page-header-height});
   padding: 20px;
   transition: all 0.3s;
   position: absolute;
   top: $page-header-height;
   right: 0;
   overflow-y: auto;
+  background-color: $page-bg-color;
 }
+
+//MEDIA-QUERIES
 
 @media (min-width: 991px) {
   #page-container {
-    width: calc(100% - $sidebar-width);
+    width: calc(100% - #{$sidebar-width});
   }
 
   #page-header {
-    width: calc(100% - $sidebar-width);
+    width: calc(100% - #{$sidebar-width});
+  }
+
+  .navbar .header-user {
+    position: absolute;
+    right: 50px;
+  }
+}
+
+@media (max-width: 500px) {
+  .navbar .header-title {
+    font-size: 16px;
+  }
+
+  .navbar .header-user p {
+    font-size: 12px;
+    margin-right: 5px;
   }
 }
