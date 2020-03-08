@@ -2,10 +2,15 @@ import { Injectable } from "@angular/core";
 import { Router, CanActivate } from "@angular/router";
 
 import { AuthService } from "./auth.service";
+import { ToastService } from "../toast/toast.service";
 
 @Injectable({ providedIn: "root" })
 export class AuthGuard implements CanActivate {
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private toastService: ToastService
+  ) {}
 
   canActivate(): boolean {
     let token = this.authService.getToken();
@@ -17,7 +22,7 @@ export class AuthGuard implements CanActivate {
 
     if (this.authService.isTokenExpired(token)) {
       this.router.navigate(["/login"]);
-      //TODO: toast service - session expired
+      this.toastService.error("Sessão expirada");
       return false;
     }
 

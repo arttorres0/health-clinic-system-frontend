@@ -1,0 +1,6 @@
+<div class="toast-wrapper">
+  <div *ngFor="let toast of toasts" class="{{ cssClass(toast) }}">
+    <span [innerHTML]="toast.message"></span>
+    <a class="close" (click)="removeToast(toast)">&times;</a>
+  </div>
+</div>

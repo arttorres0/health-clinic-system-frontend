@@ -3,6 +3,7 @@ import { AuthService } from "../auth/auth.service";
 import { Router } from "@angular/router";
 import { environment } from "src/environments/environment";
 import { LoadingService } from "../loading/loading.service";
+import { ToastService } from "../toast/toast.service";
 
 @Component({
   selector: "app-login",
@@ -16,7 +17,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private toastService: ToastService
   ) {
     this.login = "";
     this.senha = "";
@@ -35,12 +37,13 @@ export class LoginComponent implements OnInit {
       response => {
         this.authService.setToken(response["token"]);
         this.router.navigate(["/"]);
-        //TODO: toast service with response.message
+        this.loadingService.setLoadingBoolean(false);
+        this.toastService.info(response.message);
       },
       error => {
-        //TODO: toast service with error.message
-      },
-      () => this.loadingService.setLoadingBoolean(false)
+        this.loadingService.setLoadingBoolean(false);
+        this.toastService.error(error.error.message);
+      }
     );
   }
 }

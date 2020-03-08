@@ -1,0 +1,23 @@
+.toast-wrapper {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  height: fit-content;
+  z-index: 1000;
+  left: 50;
+}
+
+.toast-element {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  width: max-content;
+  max-width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.toast-element a {
+  margin-left: 10px;
+}
