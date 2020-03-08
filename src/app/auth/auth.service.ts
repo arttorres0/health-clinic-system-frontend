@@ -35,7 +35,7 @@ export class AuthService {
     localStorage.setItem("access-token", token);
   }
 
-  getLogin(): string {
+  getLoginId(): string {
     let token = this.getToken();
     if (!token) return null;
 
@@ -63,7 +63,4 @@ export class AuthService {
     if (date === undefined) return false;
     return !(date.valueOf() > new Date().valueOf());
   }
-
-  //TODO: implement getLoginId method
-  // getLoginId(): string {}
 }

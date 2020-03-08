@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../auth/auth.service";
 import { Router } from "@angular/router";
 import { environment } from "src/environments/environment";
+import { LoadingService } from "../loading/loading.service";
 
 @Component({
   selector: "app-login",
@@ -12,7 +13,11 @@ export class LoginComponent implements OnInit {
   private login: string;
   private senha: string;
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private loadingService: LoadingService
+  ) {
     this.login = "";
     this.senha = "";
   }
@@ -24,7 +29,7 @@ export class LoginComponent implements OnInit {
   }
 
   doLogin(): void {
-    //TODO: start loading service
+    this.loadingService.setLoadingBoolean(true);
 
     this.authService.doLogin(this.login, this.senha).subscribe(
       response => {
@@ -34,8 +39,8 @@ export class LoginComponent implements OnInit {
       },
       error => {
         //TODO: toast service with error.message
-      }
-      //, TODO: end loading service
+      },
+      () => this.loadingService.setLoadingBoolean(false)
     );
   }
 }

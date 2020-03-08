@@ -48,6 +48,6 @@ export class PagesComponent implements OnInit {
   }
 
   getUsername(): string {
-    return this.authService.getLogin();
+    return this.authService.getLoginId();
   }
 }
