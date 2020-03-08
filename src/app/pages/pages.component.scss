@@ -3,13 +3,6 @@
 $sidebar-width: 250px;
 $page-header-height: 65px;
 
-a,
-a:hover,
-a:focus {
-  text-decoration: none;
-  transition: all 0.3s;
-}
-
 //HEADER
 
 #page-header {
@@ -34,6 +27,13 @@ a:focus {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.navbar a,
+.navbar a:hover,
+.navbar a:focus {
+  text-decoration: none;
+  transition: all 0.3s;
 }
 
 .navbar a {
@@ -81,7 +81,6 @@ a:focus {
   line-height: 30px;
   border-radius: 5px;
   text-align: center;
-  background: $sidebar-hover-color;
   position: absolute;
   top: 10px;
   right: 10px;
@@ -146,7 +145,7 @@ a:focus {
   border-top: 1px solid $sidebar-hover-color;
   position: absolute;
   bottom: 0;
-  padding: 10px;
+  padding: 10px 15px;
 }
 
 #sidebar .sidebar-footer p {
