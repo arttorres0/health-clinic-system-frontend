@@ -5,9 +5,10 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { LoginComponent } from "./login/login.component";
 import { FormsModule } from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { LoadingComponent } from "./loading/loading.component";
 import { ToastComponent } from "./toast/toast.component";
+import { ReqInterceptor } from "./req-interceptor";
 
 @NgModule({
   declarations: [
@@ -17,7 +18,9 @@ import { ToastComponent } from "./toast/toast.component";
     ToastComponent
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ReqInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

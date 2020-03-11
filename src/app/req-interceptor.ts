@@ -3,24 +3,26 @@ import {
   HttpEvent,
   HttpInterceptor,
   HttpHandler,
-  HttpRequest,
-  HttpHeaders
+  HttpRequest
 } from "@angular/common/http";
 
 import { Observable } from "rxjs";
+import { AuthService } from "./auth/auth.service";
 
 @Injectable()
 export class ReqInterceptor implements HttpInterceptor {
+  constructor(private authService: AuthService) {}
+
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     let headers = req.headers
       .set("Content-Type", "application/json")
-      .set("Accept", "*/*");
-    //TODO: if request is not /login, set authorization header
+      .set("Accept", "*/*")
+      .set("Authorization", "Bearer " + this.authService.getToken());
 
-    const newReq = req.clone({ headers });
+    let newReq = req.clone({ headers });
 
     return next.handle(newReq);
   }
