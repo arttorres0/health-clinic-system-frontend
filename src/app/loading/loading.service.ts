@@ -1,20 +1,21 @@
 import { Injectable } from "@angular/core";
+import { Subject, Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root"
 })
 export class LoadingService {
-  isLoading: boolean;
+  private subject = new Subject<boolean>();
 
-  constructor() {
-    this.isLoading = false;
-  }
+  constructor() {}
 
   setLoadingBoolean(isLoading): void {
-    this.isLoading = isLoading;
+    setTimeout(() => {
+      this.subject.next(isLoading);
+    }, 0);
   }
 
-  getLoadingBoolean(): boolean {
-    return this.isLoading;
+  getLoadingBoolean(): Observable<boolean> {
+    return this.subject.asObservable();
   }
 }
