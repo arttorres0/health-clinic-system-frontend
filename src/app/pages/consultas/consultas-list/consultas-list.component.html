@@ -1,0 +1,198 @@
+<h1 class="page-title">Consultas</h1>
+
+<div class="page-content">
+  <!-- TODO: change this to another component -->
+  <button
+    class="btn btn-secondary page-button"
+    style="float:right; margin-bottom: 10px"
+  >
+    Nova Consulta
+  </button>
+
+  <div class="view-mode-buttons-wrapper">
+    <button
+      class="btn btn-outline-secondary day-mode-button"
+      (click)="switchViewMode('day')"
+      [ngClass]="{ active: viewMode === 'day' }"
+    >
+      Dia
+    </button>
+    <button
+      class="btn btn-outline-secondary list-mode-button"
+      (click)="switchViewMode('list')"
+      [ngClass]="{ active: viewMode === 'list' }"
+    >
+      Lista
+    </button>
+  </div>
+
+  <form *ngIf="viewMode === 'day'" class="form filter-date">
+    <div class="form-group col-md-6 col-xl-4">
+      <label for="filter-date-input" class="page-filters-label">Data:</label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div
+            class="btn btn-outline-secondary calendar-icon-wrapper"
+            (click)="d.toggle()"
+            type="button"
+          >
+            <fa-icon class="calendar-icon" [icon]="calendarIcon"></fa-icon>
+          </div>
+        </div>
+        <span *ngIf="!selectedFilterDate" class="form-control date-span"></span>
+        <span *ngIf="selectedFilterDate" class="form-control date-span"
+          >{{ selectedFilterDate.day }}/{{ selectedFilterDate.month }}/{{
+            selectedFilterDate.year
+          }}</span
+        >
+        <input
+          id="filter-date-input"
+          style="display: none;"
+          name="dp"
+          [(ngModel)]="selectedFilterDate"
+          ngbDatepicker
+          #d="ngbDatepicker"
+        />
+        <div class="input-group-append">
+          <button class="btn btn-secondary page-button" (click)="clearDate()">
+            Limpar
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="table-responsive">
+    <table class="table table-bordered page-table">
+      <thead>
+        <tr>
+          <th *ngIf="viewMode === 'list'" class="day-col" scope="col">Dia</th>
+          <th class="hour-col" scope="col">Hora</th>
+          <th scope="col">
+            Médico
+            <div class="row justify-content-center">
+              <div class="input-group filter-input-wrapper col-md-10 col-xl-8">
+                <input
+                  id="filter-medico-input"
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="selectedFilterMedico"
+                  [ngModelOptions]="{ standalone: true }"
+                  [ngbTypeahead]="searchMedico"
+                  [inputFormatter]="formatterMedico"
+                  [resultFormatter]="formatterMedico"
+                  [editable]="false"
+                  [placement]="['bottom-left']"
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-secondary page-button"
+                    (click)="clearMedico()"
+                  >
+                    Limpar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </th>
+          <th scope="col">
+            Paciente
+            <div class="row justify-content-center">
+              <div class="input-group filter-input-wrapper col-md-10 col-xl-8">
+                <input
+                  id="filter-paciente-input"
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="selectedFilterPaciente"
+                  [ngModelOptions]="{ standalone: true }"
+                  [ngbTypeahead]="searchPaciente"
+                  [inputFormatter]="formatterPaciente"
+                  [resultFormatter]="formatterPaciente"
+                  [editable]="false"
+                  [placement]="['bottom-left']"
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-secondary page-button"
+                    (click)="clearPaciente()"
+                  >
+                    Limpar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </th>
+          <th class="details-col" scope="col">Detalhes</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="viewMode === 'day'">
+        <ng-container *ngFor="let hour of hours">
+          <ng-container
+            *ngIf="filterConsultasListByHour(hour) as filteredConsultas"
+          >
+            <tr *ngIf="filteredConsultas.length === 0">
+              <td>{{ hour }}</td>
+              <td colspan="3">Nova Consulta</td>
+            </tr>
+            <ng-container *ngIf="filteredConsultas.length > 0">
+              <tr>
+                <td [attr.rowspan]="filteredConsultas.length">
+                  {{ hour }}
+                </td>
+                <td>{{ filteredConsultas[0].idMedico.nome }}</td>
+                <td>{{ filteredConsultas[0].idPaciente.nome }}</td>
+                <td>+</td>
+              </tr>
+              <tr
+                *ngFor="
+                  let consulta of filteredConsultas.slice(
+                    1,
+                    filteredConsultas.length
+                  )
+                "
+              >
+                <td>{{ consulta.idMedico.nome }}</td>
+                <td>{{ consulta.idPaciente.nome }}</td>
+                <td>+</td>
+              </tr>
+            </ng-container></ng-container
+          ></ng-container
+        >
+      </tbody>
+
+      <tbody *ngIf="viewMode === 'list'">
+        <tr *ngFor="let consulta of consultas">
+          <td>{{ consulta.data | dateFormat }}</td>
+          <td>{{ consulta.hora }}</td>
+          <td>{{ consulta.idMedico.nome }}</td>
+          <td>{{ consulta.idPaciente.nome }}</td>
+          <td>+</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div
+    *ngIf="consultas && viewMode === 'list'"
+    class="row align-items-center justify-content-end pagination-wrapper"
+  >
+    <div class="pagination-count">
+      {{ pageSize * page - pageSize + 1 }} -
+      {{
+        pageSize * page < numberOfResults ? pageSize * page : numberOfResults
+      }}
+      de
+      {{ numberOfResults }}
+    </div>
+    <ngb-pagination
+      [(page)]="page"
+      [pageSize]="pageSize"
+      [collectionSize]="numberOfResults"
+      [boundaryLinks]="true"
+      [maxSize]="5"
+      [rotate]="true"
+      [ellipses]="false"
+      size="sm"
+    ></ngb-pagination>
+  </div>
+</div>

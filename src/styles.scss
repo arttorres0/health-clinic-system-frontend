@@ -1,4 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
+@import "colors";
 
 html,
 body {
@@ -7,4 +8,121 @@ body {
   width: 100%;
   margin: 0;
   padding: 0;
+}
+
+//SHARED PAGE CONTENT STYLES
+
+input,
+button,
+a {
+  &:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+.page-title {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  color: $page-darker-color;
+}
+
+.page-content {
+  background-color: $navbar-bg-color;
+  padding: 30px;
+  border-radius: 10px;
+  color: $page-darker-color;
+  .page-button {
+    background-color: $sidebar-bg-color;
+    &:hover {
+      background-color: $sidebar-hover-color;
+    }
+  }
+}
+
+.filter-date {
+  margin-bottom: 30px;
+  label,
+  input,
+  .date-span,
+  .page-button {
+    font-size: 14px;
+    min-width: 100px;
+  }
+  .calendar-icon-wrapper {
+    font-size: 15px;
+    padding: 5px 12px;
+    background-color: $sidebar-bg-color;
+    color: $navbar-bg-color;
+    &:hover {
+      background-color: $sidebar-hover-color;
+    }
+  }
+}
+
+.page-table {
+  font-size: 14px;
+  text-align: center;
+  color: $page-darker-color;
+  td,
+  th {
+    vertical-align: middle !important;
+  }
+  th {
+    font-size: 16px;
+  }
+  .details-col {
+    width: 10%;
+  }
+  .filter-input-wrapper {
+    margin-top: 8px;
+    input,
+    button {
+      font-size: 12px;
+      padding: 0 10px;
+      height: 25px;
+    }
+  }
+}
+
+.ngb-dp-weekday {
+  font-style: normal !important;
+  color: $sidebar-bg-color !important;
+  font-weight: bold !important;
+}
+
+.btn-link {
+  color: $sidebar-bg-color !important;
+}
+
+.bg-primary {
+  background-color: $sidebar-bg-color !important;
+}
+
+.pagination-wrapper {
+  margin: 0;
+  .pagination-count {
+    font-size: 14px;
+    margin-right: 10px;
+  }
+  .pagination {
+    margin-bottom: 0;
+    .page-link {
+      color: $page-darker-color;
+      &:not(.disabled):hover {
+        background-color: $sidebar-bg-color;
+        color: $navbar-bg-color;
+      }
+    }
+    .page-item.active .page-link {
+      background-color: $sidebar-bg-color;
+      color: $navbar-bg-color;
+      border-color: #dee2e6;
+    }
+    .page-item.disabled .page-link {
+      background-color: $sidebar-light-color;
+      color: $navbar-bg-color;
+    }
+  }
 }

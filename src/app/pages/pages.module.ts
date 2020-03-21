@@ -1,15 +1,30 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
-import { PagesRoutingModule } from './pages-routing.module';
-import { PagesComponent } from './pages.component';
-
+import { PagesRoutingModule } from "./pages-routing.module";
+import { PagesComponent } from "./pages.component";
+import { ConsultasListComponent } from "./consultas/consultas-list/consultas-list.component";
+import { FormsModule } from "@angular/forms";
+import { MedicosListComponent } from "./medicos/medicos-list/medicos-list.component";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { PacientesListComponent } from "./pacientes/pacientes-list/pacientes-list.component";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
-  declarations: [PagesComponent],
+  declarations: [
+    PagesComponent,
+    ConsultasListComponent,
+    MedicosListComponent,
+    PacientesListComponent
+  ],
   imports: [
     CommonModule,
-    PagesRoutingModule
+    PagesRoutingModule,
+    FormsModule,
+    NgbModule,
+    FontAwesomeModule,
+    SharedModule
   ]
 })
-export class PagesModule { }
+export class PagesModule {}

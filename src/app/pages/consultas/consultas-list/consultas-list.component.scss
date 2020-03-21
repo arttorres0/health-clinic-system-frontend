@@ -1,0 +1,42 @@
+@import "src/_colors";
+
+.hour-col {
+  width: 10%;
+}
+
+.day-col {
+  width: 15%;
+}
+
+.view-mode-buttons-wrapper {
+  margin-bottom: 30px;
+}
+
+.day-mode-button,
+.list-mode-button {
+  background-color: none;
+  font-size: 14px;
+  padding: 3px 10px;
+  &:hover,
+  &.active {
+    background-color: $sidebar-hover-color !important;
+    outline: none;
+  }
+}
+
+.day-mode-button {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.list-mode-button {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+@media (max-width: 768px) {
+  .day-mode-button,
+  .list-mode-button {
+    font-size: 12px;
+  }
+}

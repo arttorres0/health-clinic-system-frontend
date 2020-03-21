@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../auth/auth.service";
 import { environment } from "src/environments/environment";
+import { PagesRoutes } from "./PagesRoutes";
 
 @Component({
   selector: "app-pages",
@@ -10,10 +11,12 @@ import { environment } from "src/environments/environment";
 export class PagesComponent implements OnInit {
   sidebarIsHidden: boolean;
   isMobileSidebar: boolean;
+  menuRoutes: object[];
 
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
+    this.menuRoutes = PagesRoutes;
     this.setSidebarAttrs(window.innerWidth);
   }
 
@@ -49,5 +52,9 @@ export class PagesComponent implements OnInit {
 
   getUsername(): string {
     return this.authService.getLoginId();
+  }
+
+  getRouterLink(route): string[] {
+    return ["/" + route.path];
   }
 }

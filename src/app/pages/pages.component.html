@@ -9,8 +9,13 @@
     </div>
 
     <ul class="pages-list">
-      <li [routerLink]="['/']" [routerLinkActive]="['active']">
-        <a>Solicitações de Exames</a>
+      <li
+        *ngFor="let route of menuRoutes"
+        [routerLink]="getRouterLink(route)"
+        [routerLinkActive]="['active']"
+        (click)="hideSidebar()"
+      >
+        <a>{{ route.menuName }}</a>
       </li>
     </ul>
 

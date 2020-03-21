@@ -11,8 +11,8 @@ import { ToastService } from "../toast/toast.service";
   styleUrls: ["./login.component.scss"]
 })
 export class LoginComponent implements OnInit {
-  private login: string;
-  private senha: string;
+  login: string;
+  senha: string;
 
   constructor(
     private authService: AuthService,
