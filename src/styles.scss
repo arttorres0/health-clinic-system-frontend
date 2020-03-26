@@ -21,6 +21,11 @@ a {
   }
 }
 
+.btn.disabled,
+.btn:disabled {
+  opacity: 0.5;
+}
+
 .page-title {
   font-size: 26px;
   font-weight: bold;
@@ -38,6 +43,11 @@ a {
     &:hover {
       background-color: $sidebar-hover-color;
     }
+  }
+  .new-button {
+    float: right;
+    margin-bottom: 10px;
+    font-size: 14px;
   }
 }
 
@@ -84,6 +94,9 @@ a {
       height: 25px;
     }
   }
+  .details-button {
+    font-size: 12px;
+  }
 }
 
 .ngb-dp-weekday {
@@ -125,4 +138,43 @@ a {
       color: $navbar-bg-color;
     }
   }
+}
+
+.modal-body {
+  .dropdown-menu.show {
+    max-height: 150px !important;
+    overflow-y: auto !important;
+  }
+
+  .edit-button {
+    float: right;
+  }
+
+  form {
+    clear: both;
+  }
+
+  .date-span {
+    &.disabled {
+      border: none;
+    }
+  }
+
+  input:disabled {
+    border: none;
+    background-color: transparent;
+  }
+
+  select:disabled {
+    border: none;
+    background-color: transparent;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: "";
+  }
+}
+
+.modal-footer {
+  padding: 16px;
 }

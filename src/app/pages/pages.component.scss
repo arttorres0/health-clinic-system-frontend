@@ -70,6 +70,7 @@ $page-header-height: 65px;
 }
 
 #dismiss {
+  cursor: pointer;
   width: 30px;
   height: 30px;
   line-height: 30px;
@@ -81,6 +82,9 @@ $page-header-height: 65px;
   -webkit-transition: all 0.3s;
   -o-transition: all 0.3s;
   transition: all 0.3s;
+  svg:hover {
+    opacity: 0.5;
+  }
 }
 
 #sidebar .sidebar-header {

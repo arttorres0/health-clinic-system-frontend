@@ -1,10 +1,9 @@
 <h1 class="page-title">Consultas</h1>
 
 <div class="page-content">
-  <!-- TODO: change this to another component -->
   <button
-    class="btn btn-secondary page-button"
-    style="float:right; margin-bottom: 10px"
+    class="btn btn-secondary page-button new-button"
+    (click)="openConsultaModal({ editMode: true })"
   >
     Nova Consulta
   </button>
@@ -12,21 +11,21 @@
   <div class="view-mode-buttons-wrapper">
     <button
       class="btn btn-outline-secondary day-mode-button"
-      (click)="switchViewMode('day')"
-      [ngClass]="{ active: viewMode === 'day' }"
+      (click)="switchViewMode(viewModeTypes.Day)"
+      [ngClass]="{ active: selectedViewMode === viewModeTypes.Day }"
     >
       Dia
     </button>
     <button
       class="btn btn-outline-secondary list-mode-button"
-      (click)="switchViewMode('list')"
-      [ngClass]="{ active: viewMode === 'list' }"
+      (click)="switchViewMode(viewModeTypes.List)"
+      [ngClass]="{ active: selectedViewMode === viewModeTypes.List }"
     >
       Lista
     </button>
   </div>
 
-  <form *ngIf="viewMode === 'day'" class="form filter-date">
+  <form *ngIf="selectedViewMode === viewModeTypes.Day" class="form filter-date">
     <div class="form-group col-md-6 col-xl-4">
       <label for="filter-date-input" class="page-filters-label">Data:</label>
       <div class="input-group">
@@ -66,12 +65,18 @@
     <table class="table table-bordered page-table">
       <thead>
         <tr>
-          <th *ngIf="viewMode === 'list'" class="day-col" scope="col">Dia</th>
+          <th
+            *ngIf="selectedViewMode === viewModeTypes.List"
+            class="day-col"
+            scope="col"
+          >
+            Dia
+          </th>
           <th class="hour-col" scope="col">Hora</th>
           <th scope="col">
             Médico
             <div class="row justify-content-center">
-              <div class="input-group filter-input-wrapper col-md-10 col-xl-8">
+              <div class="input-group filter-input-wrapper col-md-10">
                 <input
                   id="filter-medico-input"
                   type="text"
@@ -98,7 +103,7 @@
           <th scope="col">
             Paciente
             <div class="row justify-content-center">
-              <div class="input-group filter-input-wrapper col-md-10 col-xl-8">
+              <div class="input-group filter-input-wrapper col-md-10">
                 <input
                   id="filter-paciente-input"
                   type="text"
@@ -125,14 +130,29 @@
           <th class="details-col" scope="col">Detalhes</th>
         </tr>
       </thead>
-      <tbody *ngIf="viewMode === 'day'">
-        <ng-container *ngFor="let hour of hours">
+      <tbody *ngIf="selectedViewMode === viewModeTypes.Day">
+        <ng-container *ngFor="let hour of workingHours">
           <ng-container
             *ngIf="filterConsultasListByHour(hour) as filteredConsultas"
           >
             <tr *ngIf="filteredConsultas.length === 0">
               <td>{{ hour }}</td>
-              <td colspan="3">Nova Consulta</td>
+              <td colspan="3">
+                <button
+                  class="btn btn-secondary page-button new-button-in-table"
+                  (click)="
+                    openConsultaModal({
+                      editMode: true,
+                      medico: selectedFilterMedico,
+                      paciente: selectedFilterPaciente,
+                      data: selectedFilterDate,
+                      hora: hour
+                    })
+                  "
+                >
+                  Nova Consulta
+                </button>
+              </td>
             </tr>
             <ng-container *ngIf="filteredConsultas.length > 0">
               <tr>
@@ -141,7 +161,19 @@
                 </td>
                 <td>{{ filteredConsultas[0].idMedico.nome }}</td>
                 <td>{{ filteredConsultas[0].idPaciente.nome }}</td>
-                <td>+</td>
+                <td>
+                  <button
+                    class="btn btn-secondary page-button details-button"
+                    (click)="
+                      openConsultaModal({
+                        editMode: false,
+                        consultaId: filteredConsultas[0]._id
+                      })
+                    "
+                  >
+                    +
+                  </button>
+                </td>
               </tr>
               <tr
                 *ngFor="
@@ -153,27 +185,51 @@
               >
                 <td>{{ consulta.idMedico.nome }}</td>
                 <td>{{ consulta.idPaciente.nome }}</td>
-                <td>+</td>
+                <td>
+                  <button
+                    class="btn btn-secondary page-button details-button"
+                    (click)="
+                      openConsultaModal({
+                        editMode: false,
+                        consultaId: consulta._id
+                      })
+                    "
+                  >
+                    +
+                  </button>
+                </td>
               </tr>
             </ng-container></ng-container
           ></ng-container
         >
       </tbody>
 
-      <tbody *ngIf="viewMode === 'list'">
+      <tbody *ngIf="selectedViewMode === viewModeTypes.List">
         <tr *ngFor="let consulta of consultas">
           <td>{{ consulta.data | dateFormat }}</td>
           <td>{{ consulta.hora }}</td>
           <td>{{ consulta.idMedico.nome }}</td>
           <td>{{ consulta.idPaciente.nome }}</td>
-          <td>+</td>
+          <td>
+            <button
+              class="btn btn-secondary page-button details-button"
+              (click)="
+                openConsultaModal({
+                  editMode: false,
+                  consultaId: consulta._id
+                })
+              "
+            >
+              +
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
 
   <div
-    *ngIf="consultas && viewMode === 'list'"
+    *ngIf="consultas && selectedViewMode === viewModeTypes.List"
     class="row align-items-center justify-content-end pagination-wrapper"
   >
     <div class="pagination-count">

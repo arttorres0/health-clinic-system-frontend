@@ -10,11 +10,10 @@ export class Medico {
   dataDeNascimento: string;
   dataDeAdmissão: string;
   ativo: boolean;
-  createdAt: string;
-  updatedAt: string;
 
-  constructor(id: string = null, nome: string = null) {
-    this._id = id;
-    this.nome = nome;
+  constructor(medicoResponse?: any) {
+    for (let propName in medicoResponse) {
+      this[propName] = medicoResponse[propName];
+    }
   }
 }

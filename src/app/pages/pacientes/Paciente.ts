@@ -6,11 +6,10 @@ export class Paciente {
   telefone: string;
   dataDeNascimento: string;
   ativo: boolean;
-  createdAt: string;
-  updatedAt: string;
 
-  constructor(id: string = null, nome: string = null) {
-    this._id = id;
-    this.nome = nome;
+  constructor(pacienteResponse?: any) {
+    for (let propName in pacienteResponse) {
+      this[propName] = pacienteResponse[propName];
+    }
   }
 }

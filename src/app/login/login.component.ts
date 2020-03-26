@@ -38,7 +38,6 @@ export class LoginComponent implements OnInit {
         this.authService.setToken(response["token"]);
         this.router.navigate(["/"]);
         this.loadingService.setLoadingBoolean(false);
-        this.toastService.success(response.message);
       },
       error => {
         this.loadingService.setLoadingBoolean(false);

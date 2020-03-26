@@ -1,0 +1,225 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    {{
+      editMode
+        ? consulta._id
+          ? "Editar Consulta"
+          : "Nova Consulta"
+        : "Detalhes da Consulta"
+    }}
+  </h4>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <button
+    *ngIf="
+      (!editMode && !consulta._id) ||
+      (consulta._id && consulta.status === 'AGENDADA' && !editMode)
+    "
+    type="button"
+    class="btn btn-secondary page-button edit-button"
+    (click)="editMode = true"
+  >
+    Editar
+  </button>
+  <form #consultaForm="ngForm">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="medicoInput">Médico</label>
+        <input
+          required
+          [disabled]="!editMode"
+          id="medicoInput"
+          type="text"
+          class="form-control"
+          [(ngModel)]="consulta.idMedico"
+          name="medico"
+          [ngbTypeahead]="searchMedico"
+          [inputFormatter]="formatterMedico"
+          [resultFormatter]="formatterMedico"
+          [editable]="false"
+        />
+      </div>
+      <div class="form-group col-md-6">
+        <label for="pacienteInput">Paciente</label>
+        <input
+          required
+          [disabled]="!editMode"
+          id="pacienteInput"
+          type="text"
+          class="form-control"
+          [(ngModel)]="consulta.idPaciente"
+          name="paciente"
+          [ngbTypeahead]="searchPaciente"
+          [inputFormatter]="formatterPaciente"
+          [resultFormatter]="formatterPaciente"
+          [editable]="false"
+        />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="dateInput" class="page-filters-label">Data:</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div
+              *ngIf="editMode"
+              class="btn btn-outline-secondary calendar-icon-wrapper"
+              (click)="d.toggle()"
+              type="button"
+            >
+              <fa-icon class="calendar-icon" [icon]="calendarIcon"></fa-icon>
+            </div>
+          </div>
+          <span
+            *ngIf="!consulta.data"
+            class="form-control date-span"
+            [ngClass]="{ disabled: !editMode }"
+          ></span>
+          <span
+            *ngIf="consulta.data"
+            class="form-control date-span"
+            [ngClass]="{ disabled: !editMode }"
+            >{{ consulta.data.day }}/{{ consulta.data.month }}/{{
+              consulta.data.year
+            }}</span
+          >
+          <input
+            required
+            id="dateInput"
+            style="display: none;"
+            name="dp"
+            [(ngModel)]="consulta.data"
+            ngbDatepicker
+            #d="ngbDatepicker"
+          />
+        </div>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="horaInput">Hora</label>
+        <select
+          [disabled]="!editMode"
+          required
+          class="form-control"
+          id="horaInput"
+          [(ngModel)]="consulta.hora"
+          name="hora"
+        >
+          <ng-container *ngFor="let hour of workingHours">
+            <option disabled selected value style="display: none;"></option>
+            <option>{{ hour }}</option>
+          </ng-container>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="tipoInput">Tipo</label>
+        <select
+          [disabled]="!editMode"
+          style="text-transform: capitalize;"
+          required
+          class="form-control"
+          id="tipoInput"
+          [(ngModel)]="consulta.tipo"
+          name="tipo"
+        >
+          <ng-container *ngFor="let type of consultasTypes | keyvalue">
+            <option disabled selected value style="display: none;"></option>
+            <option style="text-transform: capitalize;" [value]="type.value">{{
+              type.value | tipoConsultaFormat
+            }}</option>
+          </ng-container>
+        </select>
+      </div>
+      <div *ngIf="consulta.tipo === 'CONVENIO'" class="form-group col-md-6">
+        <label for="convenioInput">Convênio</label>
+        <input
+          [disabled]="!editMode"
+          required
+          id="convenioInput"
+          type="text"
+          class="form-control"
+          [(ngModel)]="consulta.idConvenio"
+          name="convenio"
+          [ngbTypeahead]="searchConvenio"
+          [inputFormatter]="formatterConvenio"
+          [resultFormatter]="formatterConvenio"
+          [editable]="false"
+          [placement]="['top-left']"
+        />
+      </div>
+    </div>
+    <div class="form-row" *ngIf="consulta.status">
+      <div class="form-group col-md-6">
+        <label for="statusInput">Status</label>
+        <input
+          id="statusInput"
+          disabled
+          type="text"
+          class="form-control"
+          [(ngModel)]="consulta.status"
+          name="status"
+        />
+      </div>
+      <div *ngIf="!editMode && consulta.status == 'AGENDADA'" class="col-md-6">
+        <div
+          class="row justify-content-end align-items-center update-consulta-status-wrapper"
+        >
+          <button
+            type="submit"
+            class="btn btn-outline-success"
+            (click)="updateConsulta('CONFIRMADA')"
+          >
+            Confirmar
+          </button>
+          <button
+            type="submit"
+            class="btn btn-outline-danger"
+            (click)="deleteConsulta()"
+          >
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button
+    [disabled]="!consultaForm.form.valid"
+    *ngIf="editMode && !consulta._id"
+    type="submit"
+    class="btn btn-outline-success"
+    (click)="saveConsulta()"
+  >
+    Agendar
+  </button>
+  <button
+    [disabled]="!consultaForm.form.valid"
+    *ngIf="editMode && consulta._id"
+    type="submit"
+    class="btn btn-outline-success"
+    (click)="updateConsulta()"
+  >
+    Atualizar
+  </button>
+  <button
+    type="button"
+    class="btn"
+    [ngClass]="{
+      'btn-outline-dark': !editMode,
+      'btn-outline-danger': editMode
+    }"
+    (click)="activeModal.close('Close click')"
+  >
+    {{ editMode ? "Cancelar" : "Fechar" }}
+  </button>
+</div>

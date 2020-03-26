@@ -10,13 +10,15 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { PacientesListComponent } from "./pacientes/pacientes-list/pacientes-list.component";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { SharedModule } from "../shared/shared.module";
+import { ConsultaRequestComponent } from "./consultas/consulta-request/consulta-request.component";
 
 @NgModule({
   declarations: [
     PagesComponent,
     ConsultasListComponent,
     MedicosListComponent,
-    PacientesListComponent
+    PacientesListComponent,
+    ConsultaRequestComponent
   ],
   imports: [
     CommonModule,

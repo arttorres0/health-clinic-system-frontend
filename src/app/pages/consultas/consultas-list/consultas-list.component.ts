@@ -2,7 +2,11 @@ import { Component, OnInit } from "@angular/core";
 import { ConsultasService } from "../consultas.service";
 import { LoadingService } from "src/app/loading/loading.service";
 import { ToastService } from "src/app/toast/toast.service";
-import { NgbDateStruct, NgbCalendar } from "@ng-bootstrap/ng-bootstrap";
+import {
+  NgbDateStruct,
+  NgbCalendar,
+  NgbModal
+} from "@ng-bootstrap/ng-bootstrap";
 import { Observable } from "rxjs";
 import {
   debounceTime,
@@ -16,7 +20,8 @@ import { Medico } from "../../medicos/Medico";
 import { PacientesService } from "../../pacientes/pacientes.service";
 import { Paciente } from "../../pacientes/Paciente";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
-import { Consulta } from "../Consulta";
+import { Consulta, ViewModeTypes, WorkingHours } from "../Consulta";
+import { ConsultaRequestComponent } from "../consulta-request/consulta-request.component";
 
 @Component({
   selector: "app-consultas-list",
@@ -24,19 +29,21 @@ import { Consulta } from "../Consulta";
   styleUrls: ["./consultas-list.component.scss"]
 })
 export class ConsultasListComponent implements OnInit {
+  readonly viewModeTypes: typeof ViewModeTypes = ViewModeTypes;
+  selectedViewMode: ViewModeTypes;
+  workingHours: number[] = WorkingHours;
+
   consultas: Consulta[];
   prevPage: number;
   page: number;
   pageSize: number;
   numberOfResults: number;
-  hours: number[] = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
   prevSelectedFilterDate: NgbDateStruct;
   selectedFilterDate: NgbDateStruct;
   prevSelectedFilterPaciente: Paciente;
   selectedFilterPaciente: Paciente;
   prevSelectedFilterMedico: Medico;
   selectedFilterMedico: Medico;
-  viewMode: string;
 
   calendarIcon = faCalendarAlt;
 
@@ -46,29 +53,24 @@ export class ConsultasListComponent implements OnInit {
     private pacientesService: PacientesService,
     private loadingService: LoadingService,
     private toastService: ToastService,
-    private calendar: NgbCalendar
+    private calendar: NgbCalendar,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit() {
     this.selectedFilterMedico = this.prevSelectedFilterMedico = history.state
       ?.data?.medico
-      ? new Medico(
-          history.state?.data?.medico.id,
-          history.state?.data?.medico.nome
-        )
+      ? new Medico(history.state?.data?.medico)
       : new Medico();
     this.selectedFilterPaciente = this.prevSelectedFilterPaciente = history
       .state?.data?.paciente
-      ? new Paciente(
-          history.state?.data?.paciente.id,
-          history.state?.data?.paciente.nome
-        )
+      ? new Paciente(history.state?.data?.paciente)
       : new Paciente();
 
     if (history.state?.data?.medico || history.state?.data?.paciente) {
-      this.viewMode = "list";
+      this.selectedViewMode = this.viewModeTypes.List;
     } else {
-      this.viewMode = "day";
+      this.selectedViewMode = this.viewModeTypes.Day;
     }
 
     this.page = this.prevPage = 1;
@@ -98,16 +100,16 @@ export class ConsultasListComponent implements OnInit {
     }
   }
 
-  switchViewMode(viewMode: string): void {
-    this.viewMode = viewMode;
+  switchViewMode(selectedViewMode: ViewModeTypes): void {
+    this.selectedViewMode = selectedViewMode;
     this.getConsultasList();
   }
 
   getConsultasList(): void {
     this.loadingService.setLoadingBoolean(true);
 
-    switch (this.viewMode) {
-      case "day":
+    switch (this.selectedViewMode) {
+      case this.viewModeTypes.Day:
         this.consultasService
           .getConsultasDay({
             idPaciente: this.selectedFilterPaciente._id,
@@ -127,7 +129,7 @@ export class ConsultasListComponent implements OnInit {
           );
         break;
 
-      case "list":
+      case this.viewModeTypes.List:
         this.consultasService
           .getConsultasList({
             idPaciente: this.selectedFilterPaciente._id,
@@ -209,5 +211,38 @@ export class ConsultasListComponent implements OnInit {
 
   clearPaciente(): void {
     this.selectedFilterPaciente = new Paciente();
+  }
+
+  openConsultaModal({
+    medico,
+    paciente,
+    data,
+    hora,
+    editMode,
+    consultaId
+  }: {
+    medico?: Medico;
+    paciente?: Paciente;
+    hora?: number;
+    data?: NgbDateStruct;
+    editMode: boolean;
+    consultaId?: string;
+  }) {
+    const modalRef = this.modalService.open(ConsultaRequestComponent, {
+      centered: true,
+      size: "lg",
+      scrollable: true
+    });
+
+    modalRef.componentInstance.editMode = editMode;
+    if (consultaId) modalRef.componentInstance.prefilledConsultaId = consultaId;
+    if (medico) modalRef.componentInstance.prefilledMedico = medico;
+    if (paciente) modalRef.componentInstance.prefilledPaciente = paciente;
+    if (data) modalRef.componentInstance.prefilledData = data;
+    if (hora) modalRef.componentInstance.prefilledHora = hora;
+
+    modalRef.componentInstance.updateList.subscribe(() => {
+      this.getConsultasList();
+    });
   }
 }

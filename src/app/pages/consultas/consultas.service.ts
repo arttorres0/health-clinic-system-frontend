@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { environment } from "src/environments/environment";
 import * as moment from "moment";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import { Consulta } from "./Consulta";
 
 @Injectable({
   providedIn: "root"
@@ -54,5 +55,50 @@ export class ConsultasService {
     let params = new HttpParams({ fromObject: dataRequest });
 
     return this.http.get(this.consultasUrl, { params });
+  }
+
+  getConsulta(idConsulta: string): Observable<any> {
+    return this.http.get(this.consultasUrl + "/" + idConsulta);
+  }
+
+  saveConsulta(consulta: Consulta): Observable<any> {
+    let body = {
+      idPaciente: consulta.idPaciente._id,
+      idMedico: consulta.idMedico._id,
+      data: moment(
+        new Date(consulta.data.year, consulta.data.month - 1, consulta.data.day)
+      ).format("YYYY-MM-DD"),
+      hora: consulta.hora,
+      tipo: consulta.tipo
+    };
+
+    if (consulta.tipo === "CONVENIO" && consulta.idConvenio)
+      body["idConvenio"] = consulta.idConvenio._id;
+
+    return this.http.post(this.consultasUrl, body);
+  }
+
+  updateConsulta(consulta: Consulta, status?: string): Observable<any> {
+    let body = JSON.parse(JSON.stringify(consulta));
+
+    delete body["_id"];
+    delete body["createdAt"];
+    delete body["updatedAt"];
+    delete body["__v"];
+    body["idPaciente"] = consulta.idPaciente._id;
+    body["idMedico"] = consulta.idMedico._id;
+    body["data"] = moment(
+      new Date(consulta.data.year, consulta.data.month - 1, consulta.data.day)
+    ).format("YYYY-MM-DD");
+
+    if (consulta.tipo === "CONVENIO" && consulta.idConvenio)
+      body["idConvenio"] = consulta.idConvenio._id;
+    if (status) body["status"] = status;
+
+    return this.http.put(this.consultasUrl + "/" + consulta._id, body);
+  }
+
+  deleteConsulta(consulta: Consulta): Observable<any> {
+    return this.http.delete(this.consultasUrl + "/" + consulta._id);
   }
 }
