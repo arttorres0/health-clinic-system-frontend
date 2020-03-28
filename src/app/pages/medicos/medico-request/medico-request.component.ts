@@ -54,7 +54,6 @@ export class MedicoRequestComponent implements OnInit {
       response => {
         this.medico = new Medico(response.medico);
         this.loadingService.setLoadingBoolean(false);
-        console.log(this.medico);
       },
       error => {
         this.loadingService.setLoadingBoolean(false);

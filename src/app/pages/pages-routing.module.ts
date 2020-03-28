@@ -3,6 +3,7 @@ import { Routes, RouterModule } from "@angular/router";
 
 import { PagesRoutes } from "./PagesRoutes";
 import { PagesComponent } from "./pages.component";
+import { AuthGuard } from "../auth/auth-guard";
 
 let adjustedPagesRoutes = PagesRoutes.map(
   ({ menuName, ...keepAttrs }) => keepAttrs
@@ -11,6 +12,7 @@ let adjustedPagesRoutes = PagesRoutes.map(
 const routes: Routes = [
   {
     path: "",
+    canActivate: [AuthGuard],
     component: PagesComponent,
     children: [
       ...adjustedPagesRoutes,
