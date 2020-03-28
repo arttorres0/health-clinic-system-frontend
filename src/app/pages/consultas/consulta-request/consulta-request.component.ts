@@ -93,7 +93,7 @@ export class ConsultaRequestComponent implements OnInit {
       debounceTime(300),
       distinctUntilChanged(),
       switchMap(term =>
-        this.medicosService.getMedicos({ filter: term }).pipe(
+        this.medicosService.getMedicosList({ filter: term, ativo: true }).pipe(
           map(response => {
             return response.medicos;
           }),
@@ -112,7 +112,7 @@ export class ConsultaRequestComponent implements OnInit {
       debounceTime(300),
       distinctUntilChanged(),
       switchMap(term =>
-        this.pacientesService.getPacientes({ filter: term }).pipe(
+        this.pacientesService.getPacientes({ filter: term, ativo: true }).pipe(
           map(response => {
             return response.pacientes;
           }),
@@ -131,7 +131,7 @@ export class ConsultaRequestComponent implements OnInit {
       debounceTime(300),
       distinctUntilChanged(),
       switchMap(term =>
-        this.conveniosService.getConvenios({ filter: term }).pipe(
+        this.conveniosService.getConvenios({ filter: term, ativo: true }).pipe(
           map(response => {
             return response.convenios;
           }),

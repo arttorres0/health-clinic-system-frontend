@@ -3,8 +3,9 @@ export class Convenio {
   nome: string;
   ativo: boolean;
 
-  constructor(id: string = null, nome: string = null) {
-    this._id = id;
-    this.nome = nome;
+  constructor(convenio?: any) {
+    this._id = convenio?.id;
+    this.nome = convenio?.nome;
+    this.ativo = convenio?.ativo;
   }
 }

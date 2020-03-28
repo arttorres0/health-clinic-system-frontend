@@ -27,7 +27,7 @@
 
   <form *ngIf="selectedViewMode === viewModeTypes.Day" class="form filter-date">
     <div class="form-group col-md-6 col-xl-4">
-      <label for="filter-date-input" class="page-filters-label">Data:</label>
+      <label for="filter-date-input" class="page-filters-label">Data</label>
       <div class="input-group">
         <div class="input-group-prepend">
           <div
@@ -139,6 +139,11 @@
               <td>{{ hour }}</td>
               <td colspan="3">
                 <button
+                  [disabled]="
+                    (selectedFilterMedico._id && !selectedFilterMedico.ativo) ||
+                    (selectedFilterPaciente._id &&
+                      !selectedFilterPaciente.ativo)
+                  "
                   class="btn btn-secondary page-button new-button-in-table"
                   (click)="
                     openConsultaModal({
@@ -233,7 +238,7 @@
     class="row align-items-center justify-content-end pagination-wrapper"
   >
     <div class="pagination-count">
-      {{ pageSize * page - pageSize + 1 }} -
+      {{ numberOfResults === 0 ? 0 : pageSize * page - pageSize + 1 }} -
       {{
         pageSize * page < numberOfResults ? pageSize * page : numberOfResults
       }}

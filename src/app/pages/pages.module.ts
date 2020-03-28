@@ -11,6 +11,7 @@ import { PacientesListComponent } from "./pacientes/pacientes-list/pacientes-lis
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { SharedModule } from "../shared/shared.module";
 import { ConsultaRequestComponent } from "./consultas/consulta-request/consulta-request.component";
+import { MedicoRequestComponent } from "./medicos/medico-request/medico-request.component";
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ConsultaRequestComponent } from "./consultas/consulta-request/consulta-
     ConsultasListComponent,
     MedicosListComponent,
     PacientesListComponent,
-    ConsultaRequestComponent
+    ConsultaRequestComponent,
+    MedicoRequestComponent
   ],
   imports: [
     CommonModule,

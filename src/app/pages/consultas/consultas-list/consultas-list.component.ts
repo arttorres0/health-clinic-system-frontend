@@ -58,10 +58,8 @@ export class ConsultasListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.selectedFilterMedico = this.prevSelectedFilterMedico = history.state
-      ?.data?.medico
-      ? new Medico(history.state?.data?.medico)
-      : new Medico();
+    this.selectedFilterMedico = this.prevSelectedFilterMedico =
+      history.state?.data?.medico || new Medico();
     this.selectedFilterPaciente = this.prevSelectedFilterPaciente = history
       .state?.data?.paciente
       ? new Paciente(history.state?.data?.paciente)
@@ -160,7 +158,7 @@ export class ConsultasListComponent implements OnInit {
       debounceTime(300),
       distinctUntilChanged(),
       switchMap(term =>
-        this.medicosService.getMedicos({ filter: term }).pipe(
+        this.medicosService.getMedicosList({ filter: term }).pipe(
           map(response => {
             return response.medicos;
           }),

@@ -43,7 +43,7 @@ export class PagesComponent implements OnInit {
   }
 
   hideSidebar(): void {
-    this.sidebarIsHidden = true;
+    if (this.isMobileSidebar) this.sidebarIsHidden = true;
   }
 
   logout(): void {

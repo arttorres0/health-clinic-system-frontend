@@ -45,6 +45,16 @@ export class AuthService {
     return decoded.login;
   }
 
+  getRole(): string {
+    let token = this.getToken();
+    if (!token) return null;
+
+    const decoded = jwt_decode(token);
+    if (decoded.role === undefined) return null;
+
+    return decoded.role;
+  }
+
   getTokenExpirationDate(token: string): Date {
     const decoded = jwt_decode(token);
 

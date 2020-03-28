@@ -37,6 +37,7 @@
           required
           [disabled]="!editMode"
           id="medicoInput"
+          placeholder="Digite para pesquisar médicos(as)"
           type="text"
           class="form-control"
           [(ngModel)]="consulta.idMedico"
@@ -53,6 +54,7 @@
           required
           [disabled]="!editMode"
           id="pacienteInput"
+          placeholder="Digite para pesquisar pacientes"
           type="text"
           class="form-control"
           [(ngModel)]="consulta.idPaciente"
@@ -66,7 +68,7 @@
     </div>
     <div class="form-row">
       <div class="form-group col-md-6">
-        <label for="dateInput" class="page-filters-label">Data:</label>
+        <label for="dateInput" class="page-filters-label">Data</label>
         <div class="input-group">
           <div class="input-group-prepend">
             <div
@@ -145,6 +147,7 @@
           [disabled]="!editMode"
           required
           id="convenioInput"
+          placeholder="Digite para pesquisar convênios"
           type="text"
           class="form-control"
           [(ngModel)]="consulta.idConvenio"
@@ -159,19 +162,14 @@
     </div>
     <div class="form-row" *ngIf="consulta.status">
       <div class="form-group col-md-6">
-        <label for="statusInput">Status</label>
-        <input
-          id="statusInput"
-          disabled
-          type="text"
-          class="form-control"
-          [(ngModel)]="consulta.status"
-          name="status"
-        />
+        <label for="status">Status</label>
+        <span id="status" class="form-control status-span disabled">{{
+          consulta.status
+        }}</span>
       </div>
       <div *ngIf="!editMode && consulta.status == 'AGENDADA'" class="col-md-6">
         <div
-          class="row justify-content-end align-items-center update-consulta-status-wrapper"
+          class="row justify-content-start align-items-center update-status-wrapper"
         >
           <button
             type="submit"
@@ -185,7 +183,7 @@
             class="btn btn-outline-danger"
             (click)="deleteConsulta()"
           >
-            Cancelar
+            Desmarcar
           </button>
         </div>
       </div>
@@ -212,14 +210,21 @@
     Atualizar
   </button>
   <button
+    *ngIf="editMode"
     type="button"
-    class="btn"
-    [ngClass]="{
-      'btn-outline-dark': !editMode,
-      'btn-outline-danger': editMode
-    }"
+    class="btn btn-outline-danger"
+    (click)="
+      consulta._id ? (editMode = false) : activeModal.close('Close click')
+    "
+  >
+    Cancelar
+  </button>
+  <button
+    *ngIf="!editMode"
+    type="button"
+    class="btn btn-outline-dark"
     (click)="activeModal.close('Close click')"
   >
-    {{ editMode ? "Cancelar" : "Fechar" }}
+    Fechar
   </button>
 </div>

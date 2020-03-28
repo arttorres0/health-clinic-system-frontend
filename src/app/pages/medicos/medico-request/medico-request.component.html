@@ -1,0 +1,301 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    {{
+      editMode
+        ? medico._id
+          ? "Editar Médico(a)"
+          : "Novo(a) Médico(a)"
+        : "Detalhes do(a) Médico(a)"
+    }}
+  </h4>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <!-- TODO: allow only view for not admin -->
+  <button
+    *ngIf="!editMode && medico._id && userIsAdmin()"
+    type="button"
+    class="btn btn-secondary page-button edit-button"
+    (click)="editMode = true"
+  >
+    Editar
+  </button>
+  <form #medicoForm="ngForm">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="nomeInput">Nome</label>
+        <input
+          required
+          [disabled]="!editMode"
+          id="nomeInput"
+          type="text"
+          class="form-control"
+          [(ngModel)]="medico.nome"
+          name="nome"
+        />
+      </div>
+      <div class="form-group col-md-6">
+        <label for="cpfInput">CPF</label>
+        <input
+          required
+          [disabled]="!editMode"
+          id="cpfInput"
+          placeholder="Ex.: 01230123012"
+          type="text"
+          onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+          class="form-control"
+          [(ngModel)]="medico.cpf"
+          name="cpf"
+        />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="dataDeNascimentoInput" class="page-filters-label"
+          >Data de Nascimento</label
+        >
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div
+              *ngIf="editMode"
+              class="btn btn-outline-secondary calendar-icon-wrapper"
+              (click)="d1.toggle()"
+              type="button"
+            >
+              <fa-icon class="calendar-icon" [icon]="calendarIcon"></fa-icon>
+            </div>
+          </div>
+          <span
+            *ngIf="!medico.dataDeNascimento"
+            class="form-control date-span"
+            [ngClass]="{ disabled: !editMode }"
+          ></span>
+          <span
+            *ngIf="medico.dataDeNascimento"
+            class="form-control date-span"
+            [ngClass]="{ disabled: !editMode }"
+            >{{ medico.dataDeNascimento.day }}/{{
+              medico.dataDeNascimento.month
+            }}/{{ medico.dataDeNascimento.year }}</span
+          >
+          <input
+            required
+            id="dataDeNascimentoInput"
+            style="display: none;"
+            name="dp1"
+            [(ngModel)]="medico.dataDeNascimento"
+            ngbDatepicker
+            #d1="ngbDatepicker"
+            [minDate]="minCalendarDate"
+            [maxDate]="maxCalendarDate"
+          />
+        </div>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="dataDeAdmissaoInput" class="page-filters-label"
+          >Data de Admissão</label
+        >
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div
+              *ngIf="editMode"
+              class="btn btn-outline-secondary calendar-icon-wrapper"
+              (click)="d2.toggle()"
+              type="button"
+            >
+              <fa-icon class="calendar-icon" [icon]="calendarIcon"></fa-icon>
+            </div>
+          </div>
+          <span
+            *ngIf="!medico.dataDeAdmissao"
+            class="form-control date-span"
+            [ngClass]="{ disabled: !editMode }"
+          ></span>
+          <span
+            *ngIf="medico.dataDeAdmissao"
+            class="form-control date-span"
+            [ngClass]="{ disabled: !editMode }"
+            >{{ medico.dataDeAdmissao.day }}/{{
+              medico.dataDeAdmissao.month
+            }}/{{ medico.dataDeAdmissao.year }}</span
+          >
+          <input
+            required
+            id="dataDeAdmissaoInput"
+            style="display: none;"
+            name="dp2"
+            [(ngModel)]="medico.dataDeAdmissao"
+            ngbDatepicker
+            #d2="ngbDatepicker"
+            [placement]="['top-left']"
+            [minDate]="minCalendarDate"
+            [maxDate]="maxCalendarDate"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="telefoneInput">Telefone</label>
+        <input
+          required
+          [disabled]="!editMode"
+          id="telefoneInput"
+          placeholder="Ex.: 11993000000"
+          type="text"
+          onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+          class="form-control"
+          [(ngModel)]="medico.telefone"
+          name="telefone"
+        />
+      </div>
+      <div class="form-group col-md-6">
+        <label for="emailInput">Email</label>
+        <input
+          required
+          [disabled]="!editMode"
+          id="emailInput"
+          placeholder="Ex.: jose@hotmail.com"
+          type="email"
+          class="form-control"
+          [(ngModel)]="medico.email"
+          name="email"
+        />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="crmInput">CRM</label>
+        <input
+          required
+          [disabled]="!editMode"
+          id="crmInput"
+          placeholder="Ex.: 1000-AM"
+          type="text"
+          class="form-control"
+          [(ngModel)]="medico.crm"
+          name="crm"
+        />
+      </div>
+      <div *ngIf="!editMode" class="col-md-6">
+        <div
+          class="row justify-content-start align-items-center update-status-wrapper"
+        >
+          <button
+            type="submit"
+            class="btn btn-outline-dark"
+            [routerLink]="['/consultas']"
+            [state]="{ data: { medico: medico } }"
+            (click)="activeModal.close('Close click')"
+          >
+            Ver Consultas
+          </button>
+          <button type="submit" class="btn btn-outline-dark">
+            Ver Exames
+          </button>
+          <button type="submit" class="btn btn-outline-dark">
+            Ver Receitas
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="form-row" *ngIf="userIsAdmin()">
+      <div class="form-group col-md-6">
+        <label for="loginInput">Login</label>
+        <input
+          required
+          [disabled]="!editMode"
+          id="loginInput"
+          type="text"
+          class="form-control"
+          [(ngModel)]="medico.login"
+          name="login"
+        />
+      </div>
+      <div class="form-group col-md-6">
+        <label for="senhaInput">Senha</label>
+        <div class="row align-items-center password-input-wrapper">
+          <input
+            required
+            [disabled]="!editMode"
+            id="senhaInput"
+            type="password"
+            class="form-control password-input"
+            [(ngModel)]="medico.senha"
+            name="senha"
+            appTogglePassword
+          />
+        </div>
+      </div>
+    </div>
+    <div class="form-row" *ngIf="medico._id">
+      <div class="form-group col-md-6">
+        <label for="status">Ativo?</label>
+        <span id="status" class="form-control status-span disabled">{{
+          medico.ativo ? "Sim" : "Não"
+        }}</span>
+      </div>
+      <div *ngIf="!editMode" class="col-md-6">
+        <div
+          class="row justify-content-start align-items-center update-status-wrapper"
+        >
+          <button
+            *ngIf="userIsAdmin()"
+            type="submit"
+            class="btn"
+            [ngClass]="{
+              'btn-outline-dark': !medico.ativo,
+              'btn-outline-danger': medico.ativo
+            }"
+            (click)="updateMedico(!medico.ativo)"
+          >
+            {{ medico.ativo ? "Inativar" : "Ativar" }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button
+    [disabled]="!medicoForm.form.valid"
+    *ngIf="editMode && !medico._id"
+    type="submit"
+    class="btn btn-outline-success"
+    (click)="saveMedico()"
+  >
+    Salvar
+  </button>
+  <button
+    [disabled]="!medicoForm.form.valid"
+    *ngIf="editMode && medico._id"
+    type="submit"
+    class="btn btn-outline-success"
+    (click)="updateMedico()"
+  >
+    Atualizar
+  </button>
+  <button
+    *ngIf="editMode"
+    type="button"
+    class="btn btn-outline-danger"
+    (click)="medico._id ? (editMode = false) : activeModal.close('Close click')"
+  >
+    Cancelar
+  </button>
+  <button
+    *ngIf="!editMode"
+    type="button"
+    class="btn btn-outline-dark"
+    (click)="activeModal.close('Close click')"
+  >
+    Fechar
+  </button>
+</div>

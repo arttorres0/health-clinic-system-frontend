@@ -13,15 +13,18 @@ export class PacientesService {
 
   getPacientes({
     filter,
-    page
+    page,
+    ativo
   }: {
     filter?: string;
     page?: number;
+    ativo?: boolean;
   }): Observable<any> {
     let dataRequest = {};
 
     if (filter) dataRequest["filter"] = filter;
     if (page) dataRequest["page"] = page;
+    if (ativo != undefined) dataRequest["ativo"] = ativo;
 
     let params = new HttpParams({ fromObject: dataRequest });
 

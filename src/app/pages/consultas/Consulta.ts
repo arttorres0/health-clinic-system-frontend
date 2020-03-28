@@ -2,6 +2,7 @@ import { Paciente } from "../pacientes/Paciente";
 import { Medico } from "../medicos/Medico";
 import { Convenio } from "../convenios/Convenio";
 import { NgbDateStruct, NgbDate } from "@ng-bootstrap/ng-bootstrap";
+import { formatToNgbDate } from "src/app/shared/utils/FormatDate";
 
 export class Consulta {
   _id: string;
@@ -13,25 +14,15 @@ export class Consulta {
   tipo: string;
   idConvenio: Convenio;
 
-  constructor(consultaResponse?: any) {
-    if (consultaResponse) {
-      for (let propName in consultaResponse) {
-        if (propName === "data") {
-          let splitDate = consultaResponse.data.split("-");
-          this.data = new NgbDate(
-            Number(splitDate[0]),
-            Number(splitDate[1]),
-            Number(splitDate[2])
-          );
-        } else if (propName === "idMedico") {
-          this.idMedico = new Medico(consultaResponse.idMedico);
-        } else if (propName === "idPaciente") {
-          this.idPaciente = new Paciente(consultaResponse.idPaciente);
-        } else {
-          this[propName] = consultaResponse[propName];
-        }
-      }
-    }
+  constructor(consulta?: any) {
+    this._id = consulta?._id;
+    this.idPaciente = new Paciente(consulta?.idPaciente);
+    this.idMedico = new Medico(consulta?.idMedico);
+    this.data = formatToNgbDate(consulta?.data);
+    this.hora = consulta?.hora;
+    this.status = consulta?.status;
+    this.tipo = consulta?.tipo;
+    this.idConvenio = new Convenio(consulta?.idConvenio);
   }
 }
 

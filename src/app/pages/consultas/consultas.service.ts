@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { environment } from "src/environments/environment";
-import * as moment from "moment";
+import { formatToStringDate } from "src/app/shared/utils/FormatDate";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { Consulta } from "./Consulta";
 
@@ -27,10 +27,7 @@ export class ConsultasService {
 
     if (idPaciente) dataRequest["idPaciente"] = idPaciente;
     if (idMedico) dataRequest["idMedico"] = idMedico;
-    if (data)
-      dataRequest["data"] = moment(
-        new Date(data.year, data.month - 1, data.day)
-      ).format("YYYY-MM-DD");
+    if (data) dataRequest["data"] = formatToStringDate(data);
 
     let params = new HttpParams({ fromObject: dataRequest });
 
@@ -65,9 +62,7 @@ export class ConsultasService {
     let body = {
       idPaciente: consulta.idPaciente._id,
       idMedico: consulta.idMedico._id,
-      data: moment(
-        new Date(consulta.data.year, consulta.data.month - 1, consulta.data.day)
-      ).format("YYYY-MM-DD"),
+      data: formatToStringDate(consulta.data),
       hora: consulta.hora,
       tipo: consulta.tipo
     };
@@ -87,9 +82,7 @@ export class ConsultasService {
     delete body["__v"];
     body["idPaciente"] = consulta.idPaciente._id;
     body["idMedico"] = consulta.idMedico._id;
-    body["data"] = moment(
-      new Date(consulta.data.year, consulta.data.month - 1, consulta.data.day)
-    ).format("YYYY-MM-DD");
+    body["data"] = formatToStringDate(consulta.data);
 
     if (consulta.tipo === "CONVENIO" && consulta.idConvenio)
       body["idConvenio"] = consulta.idConvenio._id;
