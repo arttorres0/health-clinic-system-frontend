@@ -200,7 +200,9 @@
     type="button"
     class="btn btn-outline-danger"
     (click)="
-      paciente._id ? (editMode = false) : activeModal.close('Close click')
+      paciente._id
+        ? getPaciente(paciente._id)
+        : activeModal.close('Close click')
     "
   >
     Cancelar

@@ -119,7 +119,9 @@
     type="button"
     class="btn btn-outline-danger"
     (click)="
-      medicamento._id ? (editMode = false) : activeModal.close('Close click')
+      medicamento._id
+        ? getMedicamento(medicamento._id)
+        : activeModal.close('Close click')
     "
   >
     Cancelar

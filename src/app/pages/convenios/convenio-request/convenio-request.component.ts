@@ -38,6 +38,7 @@ export class ConvenioRequestComponent implements OnInit {
   }
 
   getConvenio(convenioId: string) {
+    this.editMode = false;
     this.loadingService.setLoadingBoolean(true);
 
     this.conveniosService.getConvenio(convenioId).subscribe(
@@ -59,7 +60,6 @@ export class ConvenioRequestComponent implements OnInit {
       response => {
         this.getConvenio(response.convenio._id);
         this.updateList.next();
-        this.editMode = false;
         this.toastService.success(response.message);
       },
       error => {
@@ -76,7 +76,6 @@ export class ConvenioRequestComponent implements OnInit {
       response => {
         this.getConvenio(response.convenio._id);
         this.updateList.next();
-        this.editMode = false;
         this.toastService.success(response.message);
       },
       error => {

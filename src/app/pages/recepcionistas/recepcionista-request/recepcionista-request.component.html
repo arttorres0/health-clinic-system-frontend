@@ -250,7 +250,9 @@
     type="button"
     class="btn btn-outline-danger"
     (click)="
-      recepcionista._id ? (editMode = false) : activeModal.close('Close click')
+      recepcionista._id
+        ? getRecepcionista(recepcionista._id)
+        : activeModal.close('Close click')
     "
   >
     Cancelar

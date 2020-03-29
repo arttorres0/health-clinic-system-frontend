@@ -93,7 +93,9 @@
     type="button"
     class="btn btn-outline-danger"
     (click)="
-      convenio._id ? (editMode = false) : activeModal.close('Close click')
+      convenio._id
+        ? getConvenio(convenio._id)
+        : activeModal.close('Close click')
     "
   >
     Cancelar

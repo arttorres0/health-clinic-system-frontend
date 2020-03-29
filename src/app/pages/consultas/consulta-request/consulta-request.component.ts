@@ -72,6 +72,7 @@ export class ConsultaRequestComponent implements OnInit {
   }
 
   getConsulta(consultaId: string) {
+    this.editMode = false;
     this.loadingService.setLoadingBoolean(true);
 
     this.consultasService.getConsulta(consultaId).subscribe(
@@ -154,7 +155,6 @@ export class ConsultaRequestComponent implements OnInit {
       response => {
         this.getConsulta(response.consulta._id);
         this.updateList.next();
-        this.editMode = false;
         this.toastService.success(response.message);
       },
       error => {
@@ -171,7 +171,6 @@ export class ConsultaRequestComponent implements OnInit {
       response => {
         this.getConsulta(response.consulta._id);
         this.updateList.next();
-        this.editMode = false;
         this.toastService.success(response.message);
       },
       error => {

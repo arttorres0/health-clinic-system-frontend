@@ -285,7 +285,9 @@
     *ngIf="editMode"
     type="button"
     class="btn btn-outline-danger"
-    (click)="medico._id ? (editMode = false) : activeModal.close('Close click')"
+    (click)="
+      medico._id ? getMedico(medico._id) : activeModal.close('Close click')
+    "
   >
     Cancelar
   </button>

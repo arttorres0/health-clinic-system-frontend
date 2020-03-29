@@ -48,6 +48,7 @@ export class MedicoRequestComponent implements OnInit {
   }
 
   getMedico(medicoId: string) {
+    this.editMode = false;
     this.loadingService.setLoadingBoolean(true);
 
     this.medicosService.getMedico(medicoId).subscribe(
@@ -69,7 +70,6 @@ export class MedicoRequestComponent implements OnInit {
       response => {
         this.getMedico(response.medico._id);
         this.updateList.next();
-        this.editMode = false;
         this.toastService.success(response.message);
       },
       error => {
@@ -86,7 +86,6 @@ export class MedicoRequestComponent implements OnInit {
       response => {
         this.getMedico(response.medico._id);
         this.updateList.next();
-        this.editMode = false;
         this.toastService.success(response.message);
       },
       error => {

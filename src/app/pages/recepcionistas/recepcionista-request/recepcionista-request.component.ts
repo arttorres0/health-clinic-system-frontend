@@ -48,6 +48,7 @@ export class RecepcionistaRequestComponent implements OnInit {
   }
 
   getRecepcionista(recepcionistaId: string) {
+    this.editMode = false;
     this.loadingService.setLoadingBoolean(true);
 
     this.recepcionistasService.getRecepcionista(recepcionistaId).subscribe(
@@ -69,7 +70,6 @@ export class RecepcionistaRequestComponent implements OnInit {
       response => {
         this.getRecepcionista(response.recepcionista._id);
         this.updateList.next();
-        this.editMode = false;
         this.toastService.success(response.message);
       },
       error => {
@@ -88,7 +88,6 @@ export class RecepcionistaRequestComponent implements OnInit {
         response => {
           this.getRecepcionista(response.recepcionista._id);
           this.updateList.next();
-          this.editMode = false;
           this.toastService.success(response.message);
         },
         error => {
