@@ -17,6 +17,16 @@
       >
         <a>{{ route.menuName }}</a>
       </li>
+      <ng-container *ngIf="userIsAdmin()">
+        <li
+          *ngFor="let route of adminRoutes"
+          [routerLink]="getRouterLink(route)"
+          [routerLinkActive]="['active']"
+          (click)="hideSidebar()"
+        >
+          <a>{{ route.menuName }}</a>
+        </li>
+      </ng-container>
     </ul>
 
     <div class="sidebar-footer">

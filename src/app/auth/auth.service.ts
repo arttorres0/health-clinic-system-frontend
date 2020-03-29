@@ -10,6 +10,7 @@ import { Observable } from "rxjs";
 })
 export class AuthService {
   private loginUrl = environment.serverUrl + "/login";
+  private adminUrl = environment.serverUrl + "/admin";
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -72,5 +73,18 @@ export class AuthService {
     const date = this.getTokenExpirationDate(token);
     if (date === undefined) return false;
     return !(date.valueOf() > new Date().valueOf());
+  }
+
+  getAdminCredentials(): Observable<any> {
+    return this.http.get(this.adminUrl);
+  }
+
+  updateAdminCredentials(login: string, senha: string): Observable<any> {
+    let dataRequest = {
+      login,
+      senha
+    };
+
+    return this.http.put(this.adminUrl, dataRequest);
   }
 }

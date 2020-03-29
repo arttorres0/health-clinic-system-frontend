@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../auth/auth.service";
 import { environment } from "src/environments/environment";
-import { PagesRoutes } from "./PagesRoutes";
+import { PagesRoutes, AdminRoutes } from "./PagesRoutes";
+import { Roles } from "../auth/Roles";
 
 @Component({
   selector: "app-pages",
@@ -12,11 +13,13 @@ export class PagesComponent implements OnInit {
   sidebarIsHidden: boolean;
   isMobileSidebar: boolean;
   menuRoutes: object[];
+  adminRoutes: object[];
 
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
     this.menuRoutes = PagesRoutes;
+    this.adminRoutes = AdminRoutes;
     this.setSidebarAttrs(window.innerWidth);
   }
 
@@ -56,5 +59,9 @@ export class PagesComponent implements OnInit {
 
   getRouterLink(route): string[] {
     return ["/" + route.path];
+  }
+
+  userIsAdmin(): boolean {
+    return this.authService.getRole() === Roles.ADMIN;
   }
 }

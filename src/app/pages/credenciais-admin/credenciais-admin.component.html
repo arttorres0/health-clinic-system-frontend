@@ -1,0 +1,63 @@
+<h1 class="page-title">Credenciais do Admin</h1>
+
+<div class="page-content">
+  <form #adminCredentialsForm="ngForm">
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="loginInput">Login</label>
+        <div class="row align-items-center password-input-wrapper">
+          <input
+            required
+            [disabled]="!editMode"
+            id="loginInput"
+            type="password"
+            class="form-control"
+            [(ngModel)]="login"
+            name="login"
+            appTogglePassword
+          />
+        </div>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="senhaInput">Senha</label>
+        <div class="row align-items-center password-input-wrapper">
+          <input
+            required
+            [disabled]="!editMode"
+            id="senhaInput"
+            type="password"
+            class="form-control"
+            [(ngModel)]="senha"
+            name="senha"
+            appTogglePassword
+          />
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="col-md-6 credentials-actions-wrapper">
+    <button
+      *ngIf="!editMode"
+      class="btn btn-outline-dark"
+      (click)="editMode = true"
+    >
+      Editar
+    </button>
+    <button
+      [disabled]="!adminCredentialsForm.form.valid"
+      *ngIf="editMode"
+      class="btn btn-outline-success"
+      (click)="updateAdminCredentials()"
+    >
+      Confirmar
+    </button>
+    <button
+      *ngIf="editMode"
+      class="btn btn-outline-danger"
+      (click)="getAdminCredentials()"
+    >
+      Cancelar
+    </button>
+  </div>
+</div>
