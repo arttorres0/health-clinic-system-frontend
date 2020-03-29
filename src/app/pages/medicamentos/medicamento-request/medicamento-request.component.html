@@ -1,0 +1,135 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    {{
+      editMode
+        ? medicamento._id
+          ? "Editar Medicamento"
+          : "Novo Medicamento"
+        : "Detalhes do Medicamento"
+    }}
+  </h4>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <button
+    *ngIf="!editMode && medicamento._id && userIsAdmin()"
+    type="button"
+    class="btn btn-secondary page-button edit-button"
+    (click)="editMode = true"
+  >
+    Editar
+  </button>
+  <form #medicamentoForm="ngForm">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="nomeGenericoInput">Nome Genérico</label>
+        <input
+          required
+          [disabled]="!editMode"
+          id="nomeGenericoInput"
+          type="text"
+          class="form-control"
+          [(ngModel)]="medicamento.nomeGenerico"
+          name="nomeGenerico"
+        />
+      </div>
+      <div class="form-group col-md-6">
+        <label for="nomeDeFabricaInput">Nome de Fábrica</label>
+        <input
+          required
+          [disabled]="!editMode"
+          id="nomeDeFabricaInput"
+          type="text"
+          class="form-control"
+          [(ngModel)]="medicamento.nomeDeFabrica"
+          name="nomeDeFabrica"
+        />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="fabricanteInput">Fabricante</label>
+        <input
+          required
+          [disabled]="!editMode"
+          id="fabricanteInput"
+          type="text"
+          class="form-control"
+          [(ngModel)]="medicamento.fabricante"
+          name="fabricante"
+        />
+      </div>
+    </div>
+    <div class="form-row" *ngIf="medicamento._id">
+      <div class="form-group col-md-6">
+        <label for="status">Ativo?</label>
+        <span id="status" class="form-control status-span disabled">{{
+          medicamento.ativo ? "Sim" : "Não"
+        }}</span>
+      </div>
+      <div *ngIf="!editMode" class="col-md-6">
+        <div
+          class="row justify-content-start align-items-center update-status-wrapper"
+        >
+          <button
+            *ngIf="userIsAdmin()"
+            type="submit"
+            class="btn"
+            [ngClass]="{
+              'btn-outline-dark': !medicamento.ativo,
+              'btn-outline-danger': medicamento.ativo
+            }"
+            (click)="updateMedicamento(!medicamento.ativo)"
+          >
+            {{ medicamento.ativo ? "Inativar" : "Ativar" }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button
+    [disabled]="!medicamentoForm.form.valid"
+    *ngIf="editMode && !medicamento._id"
+    type="submit"
+    class="btn btn-outline-success"
+    (click)="saveMedicamento()"
+  >
+    Salvar
+  </button>
+  <button
+    [disabled]="!medicamentoForm.form.valid"
+    *ngIf="editMode && medicamento._id"
+    type="submit"
+    class="btn btn-outline-success"
+    (click)="updateMedicamento()"
+  >
+    Atualizar
+  </button>
+  <button
+    *ngIf="editMode"
+    type="button"
+    class="btn btn-outline-danger"
+    (click)="
+      medicamento._id ? (editMode = false) : activeModal.close('Close click')
+    "
+  >
+    Cancelar
+  </button>
+  <button
+    *ngIf="!editMode"
+    type="button"
+    class="btn btn-outline-dark"
+    (click)="activeModal.close('Close click')"
+  >
+    Fechar
+  </button>
+</div>

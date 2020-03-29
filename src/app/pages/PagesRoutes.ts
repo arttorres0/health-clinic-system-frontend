@@ -3,6 +3,7 @@ import { MedicosListComponent } from "./medicos/medicos-list/medicos-list.compon
 import { PacientesListComponent } from "./pacientes/pacientes-list/pacientes-list.component";
 import { RecepcionistasListComponent } from "./recepcionistas/recepcionistas-list/recepcionistas-list.component";
 import { ConveniosListComponent } from "./convenios/convenios-list/convenios-list.component";
+import { MedicamentosListComponent } from "./medicamentos/medicamentos-list/medicamentos-list.component";
 
 export const PagesRoutes = [
   {
@@ -28,6 +29,11 @@ export const PagesRoutes = [
   {
     path: "convenios",
     component: ConveniosListComponent,
-    menuName: "Convenios"
+    menuName: "Convênios"
+  },
+  {
+    path: "medicamentos",
+    component: MedicamentosListComponent,
+    menuName: "Medicamentos"
   }
 ];

@@ -61,8 +61,11 @@ select:-webkit-autofill:focus {
   }
 }
 
-.filter-date {
+.filter-wrapper {
   margin-bottom: 30px;
+  label {
+    font-weight: bold;
+  }
   label,
   input,
   .date-span,

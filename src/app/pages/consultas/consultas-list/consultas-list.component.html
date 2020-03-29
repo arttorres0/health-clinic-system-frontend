@@ -25,7 +25,10 @@
     </button>
   </div>
 
-  <form *ngIf="selectedViewMode === viewModeTypes.Day" class="form filter-date">
+  <form
+    *ngIf="selectedViewMode === viewModeTypes.Day"
+    class="form filter-wrapper"
+  >
     <div class="form-group col-md-6 col-xl-4">
       <label for="filter-date-input" class="page-filters-label">Data</label>
       <div class="input-group">

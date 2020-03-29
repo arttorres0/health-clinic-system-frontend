@@ -17,6 +17,8 @@ import { RecepcionistasListComponent } from "./recepcionistas/recepcionistas-lis
 import { RecepcionistaRequestComponent } from "./recepcionistas/recepcionista-request/recepcionista-request.component";
 import { ConveniosListComponent } from "./convenios/convenios-list/convenios-list.component";
 import { ConvenioRequestComponent } from "./convenios/convenio-request/convenio-request.component";
+import { MedicamentosListComponent } from "./medicamentos/medicamentos-list/medicamentos-list.component";
+import { MedicamentoRequestComponent } from "./medicamentos/medicamento-request/medicamento-request.component";
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { ConvenioRequestComponent } from "./convenios/convenio-request/convenio-
     RecepcionistasListComponent,
     RecepcionistaRequestComponent,
     ConveniosListComponent,
-    ConvenioRequestComponent
+    ConvenioRequestComponent,
+    MedicamentosListComponent,
+    MedicamentoRequestComponent
   ],
   imports: [
     CommonModule,
