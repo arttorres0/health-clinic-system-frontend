@@ -7,7 +7,7 @@ import {
   HttpErrorResponse
 } from "@angular/common/http";
 
-import { Observable, of } from "rxjs";
+import { Observable, of, throwError } from "rxjs";
 import { AuthService } from "./auth/auth.service";
 import { catchError } from "rxjs/operators";
 import { Router } from "@angular/router";
@@ -43,7 +43,7 @@ export class ReqInterceptor implements HttpInterceptor {
             this.toastService.error(err.error.message);
           }
         }
-        return of(err);
+        return throwError(err);
       })
     );
   }
