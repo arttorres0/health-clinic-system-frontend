@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { environment } from "src/environments/environment";
+import { Convenio } from "./Convenio";
 
 @Injectable({
   providedIn: "root"
@@ -11,7 +12,7 @@ export class ConveniosService {
 
   constructor(private http: HttpClient) {}
 
-  getConvenios({
+  getConveniosList({
     filter,
     page,
     ativo
@@ -29,5 +30,27 @@ export class ConveniosService {
     let params = new HttpParams({ fromObject: dataRequest });
 
     return this.http.get(this.conveniosUrl, { params });
+  }
+
+  getConvenio(idConvenio: string): Observable<any> {
+    return this.http.get(this.conveniosUrl + "/" + idConvenio);
+  }
+
+  saveConvenio(convenio: Convenio): Observable<any> {
+    let body = {
+      nome: convenio.nome
+    };
+
+    return this.http.post(this.conveniosUrl, body);
+  }
+
+  updateConvenio(convenio: Convenio, ativo?: boolean): Observable<any> {
+    let body = JSON.parse(JSON.stringify(convenio));
+
+    delete body["_id"];
+
+    if (typeof ativo !== "undefined") body["ativo"] = ativo;
+
+    return this.http.put(this.conveniosUrl + "/" + convenio._id, body);
   }
 }

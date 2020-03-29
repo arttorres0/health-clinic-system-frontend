@@ -2,6 +2,7 @@ import { ConsultasListComponent } from "./consultas/consultas-list/consultas-lis
 import { MedicosListComponent } from "./medicos/medicos-list/medicos-list.component";
 import { PacientesListComponent } from "./pacientes/pacientes-list/pacientes-list.component";
 import { RecepcionistasListComponent } from "./recepcionistas/recepcionistas-list/recepcionistas-list.component";
+import { ConveniosListComponent } from "./convenios/convenios-list/convenios-list.component";
 
 export const PagesRoutes = [
   {
@@ -23,5 +24,10 @@ export const PagesRoutes = [
     path: "recepcionistas",
     component: RecepcionistasListComponent,
     menuName: "Recepcionistas"
+  },
+  {
+    path: "convenios",
+    component: ConveniosListComponent,
+    menuName: "Convenios"
   }
 ];

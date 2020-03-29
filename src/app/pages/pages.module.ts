@@ -15,6 +15,8 @@ import { MedicoRequestComponent } from "./medicos/medico-request/medico-request.
 import { PacienteRequestComponent } from "./pacientes/paciente-request/paciente-request.component";
 import { RecepcionistasListComponent } from "./recepcionistas/recepcionistas-list/recepcionistas-list.component";
 import { RecepcionistaRequestComponent } from "./recepcionistas/recepcionista-request/recepcionista-request.component";
+import { ConveniosListComponent } from "./convenios/convenios-list/convenios-list.component";
+import { ConvenioRequestComponent } from "./convenios/convenio-request/convenio-request.component";
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { RecepcionistaRequestComponent } from "./recepcionistas/recepcionista-re
     MedicoRequestComponent,
     PacienteRequestComponent,
     RecepcionistasListComponent,
-    RecepcionistaRequestComponent
+    RecepcionistaRequestComponent,
+    ConveniosListComponent,
+    ConvenioRequestComponent
   ],
   imports: [
     CommonModule,

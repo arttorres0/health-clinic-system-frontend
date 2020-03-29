@@ -133,15 +133,17 @@ export class ConsultaRequestComponent implements OnInit {
       debounceTime(300),
       distinctUntilChanged(),
       switchMap(term =>
-        this.conveniosService.getConvenios({ filter: term, ativo: true }).pipe(
-          map(response => {
-            return response.convenios;
-          }),
-          catchError(error => {
-            this.toastService.error(error.error.message);
-            return [];
-          })
-        )
+        this.conveniosService
+          .getConveniosList({ filter: term, ativo: true })
+          .pipe(
+            map(response => {
+              return response.convenios;
+            }),
+            catchError(error => {
+              this.toastService.error(error.error.message);
+              return [];
+            })
+          )
       )
     );
 

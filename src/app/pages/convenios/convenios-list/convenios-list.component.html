@@ -1,0 +1,86 @@
+<h1 class="page-title">Convênios</h1>
+
+<div class="page-content">
+  <button
+    *ngIf="userIsAdmin()"
+    class="btn btn-secondary page-button new-button"
+    (click)="openConvenioModal({ editMode: true })"
+  >
+    Novo Convênio
+  </button>
+
+  <div class="table-responsive">
+    <table class="table table-bordered page-table">
+      <thead>
+        <tr>
+          <th scope="col">
+            Convênio
+            <div class="row justify-content-center">
+              <div class="input-group filter-input-wrapper col-md-10">
+                <input
+                  id="filter-convenio-input"
+                  type="text"
+                  class="form-control"
+                  (ngModelChange)="subject.next()"
+                  [(ngModel)]="selectedFilterConvenio"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-secondary page-button"
+                    (click)="clearConvenio()"
+                  >
+                    Limpar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </th>
+          <th class="ativo-col" scope="col">Ativo</th>
+          <th class="details-col" scope="col">Detalhes</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let convenio of convenios">
+          <td>{{ convenio.nome }}</td>
+          <td>{{ convenio.ativo ? "Sim" : "Não" }}</td>
+          <td>
+            <button
+              class="btn btn-secondary page-button details-button"
+              (click)="
+                openConvenioModal({
+                  editMode: false,
+                  convenioId: convenio._id
+                })
+              "
+            >
+              +
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="row align-items-center justify-content-end pagination-wrapper">
+    <div class="pagination-count">
+      {{ numberOfResults === 0 ? 0 : pageSize * page - pageSize + 1 }} -
+      {{
+        pageSize * page < numberOfResults ? pageSize * page : numberOfResults
+      }}
+      de
+      {{ numberOfResults }}
+    </div>
+    <ngb-pagination
+      [(page)]="page"
+      [pageSize]="pageSize"
+      [collectionSize]="numberOfResults"
+      [boundaryLinks]="true"
+      [maxSize]="5"
+      [rotate]="true"
+      [ellipses]="false"
+      size="sm"
+    ></ngb-pagination>
+  </div>
+</div>
