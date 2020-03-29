@@ -12,6 +12,7 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { SharedModule } from "../shared/shared.module";
 import { ConsultaRequestComponent } from "./consultas/consulta-request/consulta-request.component";
 import { MedicoRequestComponent } from "./medicos/medico-request/medico-request.component";
+import { PacienteRequestComponent } from "./pacientes/paciente-request/paciente-request.component";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { MedicoRequestComponent } from "./medicos/medico-request/medico-request.
     MedicosListComponent,
     PacientesListComponent,
     ConsultaRequestComponent,
-    MedicoRequestComponent
+    MedicoRequestComponent,
+    PacienteRequestComponent
   ],
   imports: [
     CommonModule,

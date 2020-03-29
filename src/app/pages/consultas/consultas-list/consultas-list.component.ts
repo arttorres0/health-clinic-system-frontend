@@ -60,10 +60,8 @@ export class ConsultasListComponent implements OnInit {
   ngOnInit() {
     this.selectedFilterMedico = this.prevSelectedFilterMedico =
       history.state?.data?.medico || new Medico();
-    this.selectedFilterPaciente = this.prevSelectedFilterPaciente = history
-      .state?.data?.paciente
-      ? new Paciente(history.state?.data?.paciente)
-      : new Paciente();
+    this.selectedFilterPaciente = this.prevSelectedFilterPaciente =
+      history.state?.data?.paciente || new Paciente();
 
     if (history.state?.data?.medico || history.state?.data?.paciente) {
       this.selectedViewMode = this.viewModeTypes.List;
@@ -177,7 +175,7 @@ export class ConsultasListComponent implements OnInit {
       debounceTime(300),
       distinctUntilChanged(),
       switchMap(term =>
-        this.pacientesService.getPacientes({ filter: term }).pipe(
+        this.pacientesService.getPacientesList({ filter: term }).pipe(
           map(response => {
             return response.pacientes;
           }),

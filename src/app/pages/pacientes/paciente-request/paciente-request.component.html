@@ -1,0 +1,216 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    {{
+      editMode
+        ? paciente._id
+          ? "Editar Paciente(a)"
+          : "Novo(a) Paciente(a)"
+        : "Detalhes do(a) Paciente(a)"
+    }}
+  </h4>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <button
+    *ngIf="!editMode && paciente._id && userIsAdmin()"
+    type="button"
+    class="btn btn-secondary page-button edit-button"
+    (click)="editMode = true"
+  >
+    Editar
+  </button>
+  <form #pacienteForm="ngForm">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="nomeInput">Nome</label>
+        <input
+          required
+          [disabled]="!editMode"
+          id="nomeInput"
+          type="text"
+          class="form-control"
+          [(ngModel)]="paciente.nome"
+          name="nome"
+        />
+      </div>
+      <div class="form-group col-md-6">
+        <label for="cpfInput">CPF</label>
+        <input
+          required
+          [disabled]="!editMode"
+          id="cpfInput"
+          placeholder="Ex.: 01230123012"
+          type="text"
+          onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+          class="form-control"
+          [(ngModel)]="paciente.cpf"
+          name="cpf"
+        />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="dataDeNascimentoInput" class="page-filters-label"
+          >Data de Nascimento</label
+        >
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div
+              *ngIf="editMode"
+              class="btn btn-outline-secondary calendar-icon-wrapper"
+              (click)="d1.toggle()"
+              type="button"
+            >
+              <fa-icon class="calendar-icon" [icon]="calendarIcon"></fa-icon>
+            </div>
+          </div>
+          <span
+            *ngIf="!paciente.dataDeNascimento"
+            class="form-control date-span"
+            [ngClass]="{ disabled: !editMode }"
+          ></span>
+          <span
+            *ngIf="paciente.dataDeNascimento"
+            class="form-control date-span"
+            [ngClass]="{ disabled: !editMode }"
+            >{{ paciente.dataDeNascimento.day }}/{{
+              paciente.dataDeNascimento.month
+            }}/{{ paciente.dataDeNascimento.year }}</span
+          >
+          <input
+            required
+            id="dataDeNascimentoInput"
+            style="display: none;"
+            name="dp1"
+            [(ngModel)]="paciente.dataDeNascimento"
+            ngbDatepicker
+            #d1="ngbDatepicker"
+            [minDate]="minCalendarDate"
+            [maxDate]="maxCalendarDate"
+          />
+        </div>
+      </div>
+      <div *ngIf="!editMode" class="col-md-6">
+        <div
+          class="row justify-content-start align-items-center update-status-wrapper"
+        >
+          <button
+            type="submit"
+            class="btn btn-outline-dark"
+            [routerLink]="['/consultas']"
+            [state]="{ data: { paciente: paciente } }"
+            (click)="activeModal.close('Close click')"
+          >
+            Ver Consultas
+          </button>
+          <button type="submit" class="btn btn-outline-dark">
+            Ver Exames
+          </button>
+          <button type="submit" class="btn btn-outline-dark">
+            Ver Receitas
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="telefoneInput">Telefone</label>
+        <input
+          required
+          [disabled]="!editMode"
+          id="telefoneInput"
+          placeholder="Ex.: 11993000000"
+          type="text"
+          onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+          class="form-control"
+          [(ngModel)]="paciente.telefone"
+          name="telefone"
+        />
+      </div>
+      <div class="form-group col-md-6">
+        <label for="emailInput">Email</label>
+        <input
+          required
+          [disabled]="!editMode"
+          id="emailInput"
+          placeholder="Ex.: jose@hotmail.com"
+          type="email"
+          class="form-control"
+          [(ngModel)]="paciente.email"
+          name="email"
+        />
+      </div>
+    </div>
+    <div class="form-row" *ngIf="paciente._id">
+      <div class="form-group col-md-6">
+        <label for="status">Ativo?</label>
+        <span id="status" class="form-control status-span disabled">{{
+          paciente.ativo ? "Sim" : "Não"
+        }}</span>
+      </div>
+      <div *ngIf="!editMode" class="col-md-6">
+        <div
+          class="row justify-content-start align-items-center update-status-wrapper"
+        >
+          <button
+            *ngIf="userIsAdmin()"
+            type="submit"
+            class="btn"
+            [ngClass]="{
+              'btn-outline-dark': !paciente.ativo,
+              'btn-outline-danger': paciente.ativo
+            }"
+            (click)="updatePaciente(!paciente.ativo)"
+          >
+            {{ paciente.ativo ? "Inativar" : "Ativar" }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button
+    [disabled]="!pacienteForm.form.valid"
+    *ngIf="editMode && !paciente._id"
+    type="submit"
+    class="btn btn-outline-success"
+    (click)="savePaciente()"
+  >
+    Salvar
+  </button>
+  <button
+    [disabled]="!pacienteForm.form.valid"
+    *ngIf="editMode && paciente._id"
+    type="submit"
+    class="btn btn-outline-success"
+    (click)="updatePaciente()"
+  >
+    Atualizar
+  </button>
+  <button
+    *ngIf="editMode"
+    type="button"
+    class="btn btn-outline-danger"
+    (click)="
+      paciente._id ? (editMode = false) : activeModal.close('Close click')
+    "
+  >
+    Cancelar
+  </button>
+  <button
+    *ngIf="!editMode"
+    type="button"
+    class="btn btn-outline-dark"
+    (click)="activeModal.close('Close click')"
+  >
+    Fechar
+  </button>
+</div>
