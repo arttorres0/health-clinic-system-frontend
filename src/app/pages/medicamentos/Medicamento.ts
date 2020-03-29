@@ -5,11 +5,11 @@ export class Medicamento {
   fabricante: string;
   ativo: boolean;
 
-  constructor(convenio?: any) {
-    this._id = convenio?._id;
-    this.nomeGenerico = convenio?.nomeGenerico;
-    this.nomeDeFabrica = convenio?.nomeDeFabrica;
-    this.fabricante = convenio?.fabricante;
-    this.ativo = convenio?.ativo;
+  constructor(medicamento?: any) {
+    this._id = medicamento?._id;
+    this.nomeGenerico = medicamento?.nomeGenerico;
+    this.nomeDeFabrica = medicamento?.nomeDeFabrica;
+    this.fabricante = medicamento?.fabricante;
+    this.ativo = medicamento?.ativo;
   }
 }

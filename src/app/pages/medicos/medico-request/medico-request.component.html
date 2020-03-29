@@ -196,10 +196,22 @@
           >
             Ver Consultas
           </button>
-          <button type="submit" class="btn btn-outline-dark">
+          <button
+            type="submit"
+            class="btn btn-outline-dark"
+            [routerLink]="['/solicitacoesDeExame']"
+            [state]="{ data: { medico: medico } }"
+            (click)="activeModal.close('Close click')"
+          >
             Ver Exames
           </button>
-          <button type="submit" class="btn btn-outline-dark">
+          <button
+            type="submit"
+            class="btn btn-outline-dark"
+            [routerLink]="['/receitasDeMedicamento']"
+            [state]="{ data: { medico: medico } }"
+            (click)="activeModal.close('Close click')"
+          >
             Ver Receitas
           </button>
         </div>

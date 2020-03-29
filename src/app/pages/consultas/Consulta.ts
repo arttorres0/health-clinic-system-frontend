@@ -1,7 +1,7 @@
 import { Paciente } from "../pacientes/Paciente";
 import { Medico } from "../medicos/Medico";
 import { Convenio } from "../convenios/Convenio";
-import { NgbDateStruct, NgbDate } from "@ng-bootstrap/ng-bootstrap";
+import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { formatToNgbDate } from "src/app/shared/utils/FormatDate";
 
 export class Consulta {

@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { AutosizeModule } from "ngx-autosize";
 
 import { PagesRoutingModule } from "./pages-routing.module";
 import { PagesComponent } from "./pages.component";
@@ -20,6 +21,8 @@ import { ConvenioRequestComponent } from "./convenios/convenio-request/convenio-
 import { MedicamentosListComponent } from "./medicamentos/medicamentos-list/medicamentos-list.component";
 import { MedicamentoRequestComponent } from "./medicamentos/medicamento-request/medicamento-request.component";
 import { CredenciaisAdminComponent } from "./credenciais-admin/credenciais-admin.component";
+import { ReceitasDeMedicamentoListComponent } from "./receitas-de-medicamento/receitas-de-medicamento-list/receitas-de-medicamento-list.component";
+import { ReceitaDeMedicamentoRequestComponent } from "./receitas-de-medicamento/receita-de-medicamento-request/receita-de-medicamento-request.component";
 
 @NgModule({
   declarations: [
@@ -36,7 +39,9 @@ import { CredenciaisAdminComponent } from "./credenciais-admin/credenciais-admin
     ConvenioRequestComponent,
     MedicamentosListComponent,
     MedicamentoRequestComponent,
-    CredenciaisAdminComponent
+    CredenciaisAdminComponent,
+    ReceitasDeMedicamentoListComponent,
+    ReceitaDeMedicamentoRequestComponent
   ],
   imports: [
     CommonModule,
@@ -44,7 +49,8 @@ import { CredenciaisAdminComponent } from "./credenciais-admin/credenciais-admin
     FormsModule,
     NgbModule,
     FontAwesomeModule,
-    SharedModule
+    SharedModule,
+    AutosizeModule
   ]
 })
 export class PagesModule {}

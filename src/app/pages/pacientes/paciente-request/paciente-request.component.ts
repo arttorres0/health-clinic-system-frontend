@@ -6,8 +6,6 @@ import { ToastService } from "src/app/toast/toast.service";
 import { LoadingService } from "src/app/loading/loading.service";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 import * as moment from "moment";
-import { AuthService } from "src/app/auth/auth.service";
-import { Roles } from "src/app/auth/Roles";
 
 @Component({
   selector: "app-paciente-request",
@@ -31,8 +29,7 @@ export class PacienteRequestComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private pacientesService: PacientesService,
     private loadingService: LoadingService,
-    private toastService: ToastService,
-    private authService: AuthService
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -93,9 +90,5 @@ export class PacienteRequestComponent implements OnInit {
         this.toastService.error(error.error.message);
       }
     );
-  }
-
-  userIsAdmin(): boolean {
-    return this.authService.getRole() === Roles.ADMIN;
   }
 }

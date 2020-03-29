@@ -1,0 +1,164 @@
+<h1 class="page-title">Receitas de Medicamento</h1>
+
+<div class="page-content">
+  <button
+    *ngIf="userIsMedico()"
+    class="btn btn-secondary page-button new-button"
+    (click)="openReceitaDeMedicamentoModal({ editMode: true })"
+  >
+    Nova Receita de Medicamento
+  </button>
+
+  <form class="form filter-wrapper">
+    <div class="form-group col-md-6 col-xl-4">
+      <label for="filter-date-input" class="page-filters-label">Data</label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div
+            class="btn btn-outline-secondary calendar-icon-wrapper"
+            (click)="d.toggle()"
+            type="button"
+          >
+            <fa-icon class="calendar-icon" [icon]="calendarIcon"></fa-icon>
+          </div>
+        </div>
+        <span *ngIf="!selectedFilterDate" class="form-control date-span"></span>
+        <span *ngIf="selectedFilterDate" class="form-control date-span"
+          >{{ selectedFilterDate.day }}/{{ selectedFilterDate.month }}/{{
+            selectedFilterDate.year
+          }}</span
+        >
+        <input
+          id="filter-date-input"
+          style="display: none;"
+          name="dp"
+          [(ngModel)]="selectedFilterDate"
+          ngbDatepicker
+          #d="ngbDatepicker"
+        />
+        <div class="input-group-append">
+          <button class="btn btn-secondary page-button" (click)="clearDate()">
+            Limpar
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="table-responsive">
+    <table class="table table-bordered page-table">
+      <thead>
+        <tr>
+          <th class="date-col" scope="col">
+            Dia
+          </th>
+          <th scope="col">
+            Médico(a)
+            <div class="row justify-content-center">
+              <div class="input-group filter-input-wrapper col-md-10">
+                <input
+                  id="filter-medico-input"
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="selectedFilterMedico"
+                  [ngModelOptions]="{ standalone: true }"
+                  [ngbTypeahead]="searchMedico"
+                  [inputFormatter]="formatterMedico"
+                  [resultFormatter]="formatterMedico"
+                  [editable]="false"
+                  [placement]="['bottom-left']"
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-secondary page-button"
+                    (click)="clearMedico()"
+                  >
+                    Limpar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </th>
+          <th scope="col">
+            Paciente
+            <div class="row justify-content-center">
+              <div class="input-group filter-input-wrapper col-md-10">
+                <input
+                  id="filter-paciente-input"
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="selectedFilterPaciente"
+                  [ngModelOptions]="{ standalone: true }"
+                  [ngbTypeahead]="searchPaciente"
+                  [inputFormatter]="formatterPaciente"
+                  [resultFormatter]="formatterPaciente"
+                  [editable]="false"
+                  [placement]="['bottom-left']"
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-secondary page-button"
+                    (click)="clearPaciente()"
+                  >
+                    Limpar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </th>
+          <th scope="col">Medicamento</th>
+          <th class="details-col" scope="col">Detalhes</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let receitaDeMedicamento of receitasDeMedicamento">
+          <td>{{ receitaDeMedicamento.data | dateFormat }}</td>
+          <td>{{ receitaDeMedicamento.idMedico.nome }}</td>
+          <td>{{ receitaDeMedicamento.idPaciente.nome }}</td>
+          <td>
+            {{
+              receitaDeMedicamento.idMedicamento.nomeGenerico +
+                " | " +
+                receitaDeMedicamento.idMedicamento.nomeDeFabrica
+            }}
+          </td>
+          <td>
+            <button
+              class="btn btn-secondary page-button details-button"
+              (click)="
+                openReceitaDeMedicamentoModal({
+                  editMode: false,
+                  receitaDeMedicamentoId: receitaDeMedicamento._id
+                })
+              "
+            >
+              +
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="row align-items-center justify-content-end pagination-wrapper">
+    <div class="pagination-count">
+      {{ numberOfResults === 0 ? 0 : pageSize * page - pageSize + 1 }} -
+      {{
+        pageSize * page < numberOfResults ? pageSize * page : numberOfResults
+      }}
+      de
+      {{ numberOfResults }}
+    </div>
+    <ngb-pagination
+      [(page)]="page"
+      [pageSize]="pageSize"
+      [collectionSize]="numberOfResults"
+      [boundaryLinks]="true"
+      [maxSize]="5"
+      [rotate]="true"
+      [ellipses]="false"
+      size="sm"
+    ></ngb-pagination>
+  </div>
+</div>

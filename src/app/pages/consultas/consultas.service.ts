@@ -77,9 +77,6 @@ export class ConsultasService {
     let body = JSON.parse(JSON.stringify(consulta));
 
     delete body["_id"];
-    delete body["createdAt"];
-    delete body["updatedAt"];
-    delete body["__v"];
     body["idPaciente"] = consulta.idPaciente._id;
     body["idMedico"] = consulta.idMedico._id;
     body["data"] = formatToStringDate(consulta.data);

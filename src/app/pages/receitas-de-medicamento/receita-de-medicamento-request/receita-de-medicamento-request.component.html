@@ -1,0 +1,153 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    {{
+      editMode
+        ? receitaDeMedicamento._id
+          ? "Editar Receita de Medicamento"
+          : "Nova Receita de Medicamento"
+        : "Detalhes da Receita de Medicamento"
+    }}
+  </h4>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form #receitaDeMedicamentoForm="ngForm">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="medicoInput">Médico(a)</label>
+        <input
+          required
+          [disabled]="!editMode"
+          id="medicoInput"
+          placeholder="Digite para pesquisar médicos(as)"
+          type="text"
+          class="form-control"
+          [(ngModel)]="receitaDeMedicamento.idMedico"
+          name="medico"
+          [ngbTypeahead]="searchMedico"
+          [inputFormatter]="formatterMedico"
+          [resultFormatter]="formatterMedico"
+          [editable]="false"
+        />
+      </div>
+      <div class="form-group col-md-6">
+        <label for="pacienteInput">Paciente</label>
+        <input
+          required
+          [disabled]="!editMode"
+          id="pacienteInput"
+          placeholder="Digite para pesquisar pacientes"
+          type="text"
+          class="form-control"
+          [(ngModel)]="receitaDeMedicamento.idPaciente"
+          name="paciente"
+          [ngbTypeahead]="searchPaciente"
+          [inputFormatter]="formatterPaciente"
+          [resultFormatter]="formatterPaciente"
+          [editable]="false"
+          [placement]="['bottom-right']"
+        />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="dateInput" class="page-filters-label">Data</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div
+              *ngIf="editMode"
+              class="btn btn-outline-secondary calendar-icon-wrapper"
+              (click)="d.toggle()"
+              type="button"
+            >
+              <fa-icon class="calendar-icon" [icon]="calendarIcon"></fa-icon>
+            </div>
+          </div>
+          <span
+            *ngIf="!receitaDeMedicamento.data"
+            class="form-control date-span"
+            [ngClass]="{ disabled: !editMode }"
+          ></span>
+          <span
+            *ngIf="receitaDeMedicamento.data"
+            class="form-control date-span"
+            [ngClass]="{ disabled: !editMode }"
+            >{{ receitaDeMedicamento.data.day }}/{{
+              receitaDeMedicamento.data.month
+            }}/{{ receitaDeMedicamento.data.year }}</span
+          >
+          <input
+            required
+            id="dateInput"
+            style="display: none;"
+            name="dp"
+            [(ngModel)]="receitaDeMedicamento.data"
+            ngbDatepicker
+            #d="ngbDatepicker"
+          />
+        </div>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="medicamentoInput">Medicamento</label>
+        <input
+          required
+          [disabled]="!editMode"
+          id="medicamentoInput"
+          placeholder="Digite para pesquisar medicamentos"
+          type="text"
+          class="form-control"
+          [(ngModel)]="receitaDeMedicamento.idMedicamento"
+          name="medicamento"
+          [ngbTypeahead]="searchMedicamento"
+          [inputFormatter]="formatterMedicamento"
+          [resultFormatter]="formatterMedicamento"
+          [editable]="false"
+          [placement]="['bottom-right']"
+        />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col">
+        <label for="observacaoInput">Observação</label>
+        <textarea
+          autosize
+          [disabled]="!editMode"
+          id="observacaoInput"
+          type="text"
+          class="form-control"
+          [(ngModel)]="receitaDeMedicamento.observacao"
+          name="observacao"
+        ></textarea>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button
+    [disabled]="!receitaDeMedicamentoForm.form.valid"
+    *ngIf="editMode && !receitaDeMedicamento._id"
+    type="submit"
+    class="btn btn-outline-success"
+    (click)="saveReceitaDeMedicamento()"
+  >
+    Registrar
+  </button>
+  <button
+    type="button"
+    class="btn"
+    [ngClass]="{
+      'btn-outline-danger': editMode,
+      'btn-outline-dark': !editMode
+    }"
+    (click)="activeModal.close('Close click')"
+  >
+    {{ editMode ? "Cancelar" : "Fechar" }}
+  </button>
+</div>

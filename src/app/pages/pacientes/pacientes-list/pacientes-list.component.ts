@@ -95,8 +95,4 @@ export class PacientesListComponent implements OnInit {
       this.getPacientesList();
     });
   }
-
-  userIsAdmin(): boolean {
-    return this.authService.getRole() === Roles.ADMIN;
-  }
 }

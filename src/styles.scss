@@ -102,6 +102,9 @@ select:-webkit-autofill:focus {
   .ativo-col {
     width: 10%;
   }
+  .date-col {
+    width: 15%;
+  }
   .filter-input-wrapper {
     margin-top: 8px;
     input,
@@ -191,7 +194,12 @@ ngb-modal-window .component-host-scrollable {
     }
   }
 
-  input:disabled {
+  textarea {
+    resize: none;
+  }
+
+  input:disabled,
+  textarea:disabled {
     border: none;
     background-color: transparent;
   }
@@ -249,5 +257,18 @@ ngb-modal-window .component-host-scrollable {
   }
   .password-input {
     width: 50%;
+  }
+}
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 70%;
+  }
+}
+
+@media (min-width: 992px) {
+  .modal-lg,
+  .modal-xl {
+    max-width: 800px;
   }
 }

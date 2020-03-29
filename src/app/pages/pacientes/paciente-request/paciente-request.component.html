@@ -19,7 +19,7 @@
 </div>
 <div class="modal-body">
   <button
-    *ngIf="!editMode && paciente._id && userIsAdmin()"
+    *ngIf="!editMode && paciente._id"
     type="button"
     class="btn btn-secondary page-button edit-button"
     (click)="editMode = true"
@@ -110,10 +110,22 @@
           >
             Ver Consultas
           </button>
-          <button type="submit" class="btn btn-outline-dark">
+          <button
+            type="submit"
+            class="btn btn-outline-dark"
+            [routerLink]="['/solicitacoesDeExame']"
+            [state]="{ data: { paciente: paciente } }"
+            (click)="activeModal.close('Close click')"
+          >
             Ver Exames
           </button>
-          <button type="submit" class="btn btn-outline-dark">
+          <button
+            type="submit"
+            class="btn btn-outline-dark"
+            [routerLink]="['/receitasDeMedicamento']"
+            [state]="{ data: { paciente: paciente } }"
+            (click)="activeModal.close('Close click')"
+          >
             Ver Receitas
           </button>
         </div>
@@ -160,7 +172,6 @@
           class="row justify-content-start align-items-center update-status-wrapper"
         >
           <button
-            *ngIf="userIsAdmin()"
             type="submit"
             class="btn"
             [ngClass]="{

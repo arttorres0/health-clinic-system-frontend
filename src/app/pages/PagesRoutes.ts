@@ -6,12 +6,18 @@ import { ConveniosListComponent } from "./convenios/convenios-list/convenios-lis
 import { MedicamentosListComponent } from "./medicamentos/medicamentos-list/medicamentos-list.component";
 import { CredenciaisAdminComponent } from "./credenciais-admin/credenciais-admin.component";
 import { AdminGuard } from "../auth/admin-guard";
+import { ReceitasDeMedicamentoListComponent } from "./receitas-de-medicamento/receitas-de-medicamento-list/receitas-de-medicamento-list.component";
 
 export const PagesRoutes = [
   {
     path: "consultas",
     component: ConsultasListComponent,
     menuName: "Consultas"
+  },
+  {
+    path: "receitasDeMedicamento",
+    component: ReceitasDeMedicamentoListComponent,
+    menuName: "Receitas"
   },
   {
     path: "pacientes",
