@@ -184,6 +184,12 @@ ngb-modal-window .component-host-scrollable {
       margin-right: 5px;
       margin-left: 10px;
     }
+    span {
+      cursor: pointer;
+      &:hover {
+        font-weight: bold;
+      }
+    }
     .password-input {
       width: 50%;
     }

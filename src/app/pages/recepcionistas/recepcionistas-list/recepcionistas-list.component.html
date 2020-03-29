@@ -1,12 +1,12 @@
-<h1 class="page-title">Médicos(as)</h1>
+<h1 class="page-title">Recepcionistas</h1>
 
 <div class="page-content">
   <button
     *ngIf="userIsAdmin()"
     class="btn btn-secondary page-button new-button"
-    (click)="openMedicoModal({ editMode: true })"
+    (click)="openRecepcionistaModal({ editMode: true })"
   >
-    Novo(a) Médico(a)
+    Novo Recepcionista
   </button>
 
   <div class="table-responsive">
@@ -14,21 +14,21 @@
       <thead>
         <tr>
           <th scope="col">
-            Médico(a)
+            Recepcionista
             <div class="row justify-content-center">
               <div class="input-group filter-input-wrapper col-md-10">
                 <input
-                  id="filter-medico-input"
+                  id="filter-recepcionista-input"
                   type="text"
                   class="form-control"
                   (ngModelChange)="subject.next()"
-                  [(ngModel)]="selectedFilterMedico"
+                  [(ngModel)]="selectedFilterRecepcionista"
                   [ngModelOptions]="{ standalone: true }"
                 />
                 <div class="input-group-append">
                   <button
                     class="btn btn-secondary page-button"
-                    (click)="clearMedico()"
+                    (click)="clearRecepcionista()"
                   >
                     Limpar
                   </button>
@@ -36,24 +36,22 @@
               </div>
             </div>
           </th>
-          <th class="crm-col" scope="col">CRM</th>
           <th class="ativo-col" scope="col">Ativo</th>
           <th class="details-col" scope="col">Detalhes</th>
         </tr>
       </thead>
 
       <tbody>
-        <tr *ngFor="let medico of medicos">
-          <td>{{ medico.nome }}</td>
-          <td>{{ medico.crm }}</td>
-          <td>{{ medico.ativo ? "Sim" : "Não" }}</td>
+        <tr *ngFor="let recepcionista of recepcionistas">
+          <td>{{ recepcionista.nome }}</td>
+          <td>{{ recepcionista.ativo ? "Sim" : "Não" }}</td>
           <td>
             <button
               class="btn btn-secondary page-button details-button"
               (click)="
-                openMedicoModal({
+                openRecepcionistaModal({
                   editMode: false,
-                  medicoId: medico._id
+                  recepcionistaId: recepcionista._id
                 })
               "
             >

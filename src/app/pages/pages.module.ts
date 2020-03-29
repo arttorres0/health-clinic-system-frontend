@@ -13,6 +13,8 @@ import { SharedModule } from "../shared/shared.module";
 import { ConsultaRequestComponent } from "./consultas/consulta-request/consulta-request.component";
 import { MedicoRequestComponent } from "./medicos/medico-request/medico-request.component";
 import { PacienteRequestComponent } from "./pacientes/paciente-request/paciente-request.component";
+import { RecepcionistasListComponent } from "./recepcionistas/recepcionistas-list/recepcionistas-list.component";
+import { RecepcionistaRequestComponent } from "./recepcionistas/recepcionista-request/recepcionista-request.component";
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { PacienteRequestComponent } from "./pacientes/paciente-request/paciente-
     PacientesListComponent,
     ConsultaRequestComponent,
     MedicoRequestComponent,
-    PacienteRequestComponent
+    PacienteRequestComponent,
+    RecepcionistasListComponent,
+    RecepcionistaRequestComponent
   ],
   imports: [
     CommonModule,

@@ -1,6 +1,7 @@
 import { ConsultasListComponent } from "./consultas/consultas-list/consultas-list.component";
 import { MedicosListComponent } from "./medicos/medicos-list/medicos-list.component";
 import { PacientesListComponent } from "./pacientes/pacientes-list/pacientes-list.component";
+import { RecepcionistasListComponent } from "./recepcionistas/recepcionistas-list/recepcionistas-list.component";
 
 export const PagesRoutes = [
   {
@@ -16,6 +17,11 @@ export const PagesRoutes = [
   {
     path: "medicos",
     component: MedicosListComponent,
-    menuName: "Médicos"
+    menuName: "Médicos(as)"
+  },
+  {
+    path: "recepcionistas",
+    component: RecepcionistasListComponent,
+    menuName: "Recepcionistas"
   }
 ];

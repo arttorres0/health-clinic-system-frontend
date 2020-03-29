@@ -2,10 +2,10 @@
   <h4 class="modal-title">
     {{
       editMode
-        ? paciente._id
-          ? "Editar Paciente"
-          : "Novo Paciente"
-        : "Detalhes do Paciente"
+        ? recepcionista._id
+          ? "Editar Recepcionista"
+          : "Novo Recepcionista"
+        : "Detalhes do Recepcionista"
     }}
   </h4>
   <button
@@ -19,14 +19,14 @@
 </div>
 <div class="modal-body">
   <button
-    *ngIf="!editMode && paciente._id && userIsAdmin()"
+    *ngIf="!editMode && recepcionista._id && userIsAdmin()"
     type="button"
     class="btn btn-secondary page-button edit-button"
     (click)="editMode = true"
   >
     Editar
   </button>
-  <form #pacienteForm="ngForm">
+  <form #recepcionistaForm="ngForm">
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="nomeInput">Nome</label>
@@ -36,7 +36,7 @@
           id="nomeInput"
           type="text"
           class="form-control"
-          [(ngModel)]="paciente.nome"
+          [(ngModel)]="recepcionista.nome"
           name="nome"
         />
       </div>
@@ -50,7 +50,7 @@
           type="text"
           onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
           class="form-control"
-          [(ngModel)]="paciente.cpf"
+          [(ngModel)]="recepcionista.cpf"
           name="cpf"
         />
       </div>
@@ -72,24 +72,24 @@
             </div>
           </div>
           <span
-            *ngIf="!paciente.dataDeNascimento"
+            *ngIf="!recepcionista.dataDeNascimento"
             class="form-control date-span"
             [ngClass]="{ disabled: !editMode }"
           ></span>
           <span
-            *ngIf="paciente.dataDeNascimento"
+            *ngIf="recepcionista.dataDeNascimento"
             class="form-control date-span"
             [ngClass]="{ disabled: !editMode }"
-            >{{ paciente.dataDeNascimento.day }}/{{
-              paciente.dataDeNascimento.month
-            }}/{{ paciente.dataDeNascimento.year }}</span
+            >{{ recepcionista.dataDeNascimento.day }}/{{
+              recepcionista.dataDeNascimento.month
+            }}/{{ recepcionista.dataDeNascimento.year }}</span
           >
           <input
             required
             id="dataDeNascimentoInput"
             style="display: none;"
             name="dp1"
-            [(ngModel)]="paciente.dataDeNascimento"
+            [(ngModel)]="recepcionista.dataDeNascimento"
             ngbDatepicker
             #d1="ngbDatepicker"
             [minDate]="minCalendarDate"
@@ -97,25 +97,46 @@
           />
         </div>
       </div>
-      <div *ngIf="!editMode" class="col-md-6">
-        <div
-          class="row justify-content-start align-items-center update-status-wrapper"
+      <div class="form-group col-md-6">
+        <label for="dataDeAdmissaoInput" class="page-filters-label"
+          >Data de Admissão</label
         >
-          <button
-            type="submit"
-            class="btn btn-outline-dark"
-            [routerLink]="['/consultas']"
-            [state]="{ data: { paciente: paciente } }"
-            (click)="activeModal.close('Close click')"
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div
+              *ngIf="editMode"
+              class="btn btn-outline-secondary calendar-icon-wrapper"
+              (click)="d2.toggle()"
+              type="button"
+            >
+              <fa-icon class="calendar-icon" [icon]="calendarIcon"></fa-icon>
+            </div>
+          </div>
+          <span
+            *ngIf="!recepcionista.dataDeAdmissao"
+            class="form-control date-span"
+            [ngClass]="{ disabled: !editMode }"
+          ></span>
+          <span
+            *ngIf="recepcionista.dataDeAdmissao"
+            class="form-control date-span"
+            [ngClass]="{ disabled: !editMode }"
+            >{{ recepcionista.dataDeAdmissao.day }}/{{
+              recepcionista.dataDeAdmissao.month
+            }}/{{ recepcionista.dataDeAdmissao.year }}</span
           >
-            Ver Consultas
-          </button>
-          <button type="submit" class="btn btn-outline-dark">
-            Ver Exames
-          </button>
-          <button type="submit" class="btn btn-outline-dark">
-            Ver Receitas
-          </button>
+          <input
+            required
+            id="dataDeAdmissaoInput"
+            style="display: none;"
+            name="dp2"
+            [(ngModel)]="recepcionista.dataDeAdmissao"
+            ngbDatepicker
+            #d2="ngbDatepicker"
+            [placement]="['top-left']"
+            [minDate]="minCalendarDate"
+            [maxDate]="maxCalendarDate"
+          />
         </div>
       </div>
     </div>
@@ -130,7 +151,7 @@
           type="text"
           onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
           class="form-control"
-          [(ngModel)]="paciente.telefone"
+          [(ngModel)]="recepcionista.telefone"
           name="telefone"
         />
       </div>
@@ -143,16 +164,45 @@
           placeholder="Ex.: jose@hotmail.com"
           type="email"
           class="form-control"
-          [(ngModel)]="paciente.email"
+          [(ngModel)]="recepcionista.email"
           name="email"
         />
       </div>
     </div>
-    <div class="form-row" *ngIf="paciente._id">
+    <div class="form-row" *ngIf="userIsAdmin()">
+      <div class="form-group col-md-6">
+        <label for="loginInput">Login</label>
+        <input
+          required
+          [disabled]="!editMode"
+          id="loginInput"
+          type="text"
+          class="form-control"
+          [(ngModel)]="recepcionista.login"
+          name="login"
+        />
+      </div>
+      <div class="form-group col-md-6">
+        <label for="senhaInput">Senha</label>
+        <div class="row align-items-center password-input-wrapper">
+          <input
+            required
+            [disabled]="!editMode"
+            id="senhaInput"
+            type="password"
+            class="form-control password-input"
+            [(ngModel)]="recepcionista.senha"
+            name="senha"
+            appTogglePassword
+          />
+        </div>
+      </div>
+    </div>
+    <div class="form-row" *ngIf="recepcionista._id">
       <div class="form-group col-md-6">
         <label for="status">Ativo?</label>
         <span id="status" class="form-control status-span disabled">{{
-          paciente.ativo ? "Sim" : "Não"
+          recepcionista.ativo ? "Sim" : "Não"
         }}</span>
       </div>
       <div *ngIf="!editMode" class="col-md-6">
@@ -164,12 +214,12 @@
             type="submit"
             class="btn"
             [ngClass]="{
-              'btn-outline-dark': !paciente.ativo,
-              'btn-outline-danger': paciente.ativo
+              'btn-outline-dark': !recepcionista.ativo,
+              'btn-outline-danger': recepcionista.ativo
             }"
-            (click)="updatePaciente(!paciente.ativo)"
+            (click)="updateRecepcionista(!recepcionista.ativo)"
           >
-            {{ paciente.ativo ? "Inativar" : "Ativar" }}
+            {{ recepcionista.ativo ? "Inativar" : "Ativar" }}
           </button>
         </div>
       </div>
@@ -178,20 +228,20 @@
 </div>
 <div class="modal-footer">
   <button
-    [disabled]="!pacienteForm.form.valid"
-    *ngIf="editMode && !paciente._id"
+    [disabled]="!recepcionistaForm.form.valid"
+    *ngIf="editMode && !recepcionista._id"
     type="submit"
     class="btn btn-outline-success"
-    (click)="savePaciente()"
+    (click)="saveRecepcionista()"
   >
     Salvar
   </button>
   <button
-    [disabled]="!pacienteForm.form.valid"
-    *ngIf="editMode && paciente._id"
+    [disabled]="!recepcionistaForm.form.valid"
+    *ngIf="editMode && recepcionista._id"
     type="submit"
     class="btn btn-outline-success"
-    (click)="updatePaciente()"
+    (click)="updateRecepcionista()"
   >
     Atualizar
   </button>
@@ -200,7 +250,7 @@
     type="button"
     class="btn btn-outline-danger"
     (click)="
-      paciente._id ? (editMode = false) : activeModal.close('Close click')
+      recepcionista._id ? (editMode = false) : activeModal.close('Close click')
     "
   >
     Cancelar
