@@ -23,6 +23,8 @@ import { MedicamentoRequestComponent } from "./medicamentos/medicamento-request/
 import { CredenciaisAdminComponent } from "./credenciais-admin/credenciais-admin.component";
 import { ReceitasDeMedicamentoListComponent } from "./receitas-de-medicamento/receitas-de-medicamento-list/receitas-de-medicamento-list.component";
 import { ReceitaDeMedicamentoRequestComponent } from "./receitas-de-medicamento/receita-de-medicamento-request/receita-de-medicamento-request.component";
+import { SolicitacoesDeExameListComponent } from "./solicitacoes-de-exame/solicitacoes-de-exame-list/solicitacoes-de-exame-list.component";
+import { SolicitacaoDeExameRequestComponent } from "./solicitacoes-de-exame/solicitacao-de-exame-request/solicitacao-de-exame-request.component";
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { ReceitaDeMedicamentoRequestComponent } from "./receitas-de-medicamento/
     MedicamentoRequestComponent,
     CredenciaisAdminComponent,
     ReceitasDeMedicamentoListComponent,
-    ReceitaDeMedicamentoRequestComponent
+    ReceitaDeMedicamentoRequestComponent,
+    SolicitacoesDeExameListComponent,
+    SolicitacaoDeExameRequestComponent
   ],
   imports: [
     CommonModule,

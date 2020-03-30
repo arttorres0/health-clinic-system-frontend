@@ -2,8 +2,8 @@
   <h4 class="modal-title">
     {{
       editMode
-        ? "Nova Receita de Medicamento"
-        : "Detalhes da Receita de Medicamento"
+        ? "Nova Solicitação de Exame"
+        : "Detalhes da Solicitação de Exame"
     }}
   </h4>
   <button
@@ -16,7 +16,7 @@
   </button>
 </div>
 <div class="modal-body">
-  <form #receitaDeMedicamentoForm="ngForm">
+  <form #solicitacaoDeExameForm="ngForm">
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="medicoInput">Médico(a)</label>
@@ -27,7 +27,7 @@
           placeholder="Digite para pesquisar médicos(as)"
           type="text"
           class="form-control"
-          [(ngModel)]="receitaDeMedicamento.idMedico"
+          [(ngModel)]="solicitacaoDeExame.idMedico"
           name="medico"
           [ngbTypeahead]="searchMedico"
           [inputFormatter]="formatterMedico"
@@ -44,7 +44,7 @@
           placeholder="Digite para pesquisar pacientes"
           type="text"
           class="form-control"
-          [(ngModel)]="receitaDeMedicamento.idPaciente"
+          [(ngModel)]="solicitacaoDeExame.idPaciente"
           name="paciente"
           [ngbTypeahead]="searchPaciente"
           [inputFormatter]="formatterPaciente"
@@ -69,46 +69,90 @@
             </div>
           </div>
           <span
-            *ngIf="!receitaDeMedicamento.data"
+            *ngIf="!solicitacaoDeExame.data"
             class="form-control date-span"
             [ngClass]="{ disabled: !editMode }"
           ></span>
           <span
-            *ngIf="receitaDeMedicamento.data"
+            *ngIf="solicitacaoDeExame.data"
             class="form-control date-span"
             [ngClass]="{ disabled: !editMode }"
-            >{{ receitaDeMedicamento.data.day }}/{{
-              receitaDeMedicamento.data.month
-            }}/{{ receitaDeMedicamento.data.year }}</span
+            >{{ solicitacaoDeExame.data.day }}/{{
+              solicitacaoDeExame.data.month
+            }}/{{ solicitacaoDeExame.data.year }}</span
           >
           <input
             required
             id="dateInput"
             style="display: none;"
             name="dp"
-            [(ngModel)]="receitaDeMedicamento.data"
+            [(ngModel)]="solicitacaoDeExame.data"
             ngbDatepicker
             #d="ngbDatepicker"
           />
         </div>
       </div>
       <div class="form-group col-md-6">
-        <label for="medicamentoInput">Medicamento</label>
+        <label for="exameInput">Exame</label>
         <input
-          required
-          [disabled]="!editMode"
-          id="medicamentoInput"
-          placeholder="Digite para pesquisar medicamentos"
-          type="text"
           class="form-control"
-          [(ngModel)]="receitaDeMedicamento.idMedicamento"
-          name="medicamento"
-          [ngbTypeahead]="searchMedicamento"
-          [inputFormatter]="formatterMedicamento"
-          [resultFormatter]="formatterMedicamento"
-          [editable]="false"
-          [placement]="['bottom-right']"
+          disabled
+          *ngIf="!editMode"
+          [(ngModel)]="solicitacaoDeExame.exame"
+          name="exame"
         />
+        <select
+          *ngIf="editMode"
+          required
+          class="form-control"
+          id="exameInput"
+          [(ngModel)]="solicitacaoDeExame.exame"
+          name="exame"
+        >
+          <ng-container *ngFor="let exame of examTypesList">
+            <option disabled selected value style="display: none;"></option>
+            <option>{{ exame }}</option>
+          </ng-container>
+        </select>
+      </div>
+    </div>
+    <div class="form-row" *ngIf="!editMode">
+      <div class="form-group col-md-6">
+        <label for="status">Resultado</label>
+        <div class="result-file-wrapper">
+          <span id="status" class="form-control status-span disabled">{{
+            solicitacaoDeExame.nomeArquivoResultado || "Nenhum"
+          }}</span>
+          <button
+            type="submit"
+            *ngIf="solicitacaoDeExame.nomeArquivoResultado"
+            class="btn btn-outline-dark"
+            (click)="getSolicitacaoDeExameResultFile()"
+          >
+            Baixar Resultado
+          </button>
+        </div>
+      </div>
+      <div class="form-group col-md-6" *ngIf="userIsMedico()">
+        <div class="update-status-wrapper">
+          <input
+            type="file"
+            id="result"
+            (change)="handleResultInput($event.target.files)"
+          />
+          <label for="result" class="btn btn-outline-dark"
+            >Escolha um arquivo para salvar como resultado</label
+          >
+          <span>{{ resultFile && resultFile.name }}</span>
+          <button
+            *ngIf="resultFile"
+            type="submit"
+            class="btn btn-outline-success"
+            (click)="saveSolicitacaoDeExameResultFile()"
+          >
+            Salvar Resultado
+          </button>
+        </div>
       </div>
     </div>
     <div class="form-row">
@@ -120,7 +164,7 @@
           id="observacaoInput"
           type="text"
           class="form-control"
-          [(ngModel)]="receitaDeMedicamento.observacao"
+          [(ngModel)]="solicitacaoDeExame.observacao"
           name="observacao"
         ></textarea>
       </div>
@@ -129,11 +173,11 @@
 </div>
 <div class="modal-footer">
   <button
-    [disabled]="!receitaDeMedicamentoForm.form.valid"
-    *ngIf="editMode && !receitaDeMedicamento._id"
+    [disabled]="!solicitacaoDeExameForm.form.valid"
+    *ngIf="editMode && !solicitacaoDeExame._id"
     type="submit"
     class="btn btn-outline-success"
-    (click)="saveReceitaDeMedicamento()"
+    (click)="saveSolicitacaoDeExame()"
   >
     Registrar
   </button>

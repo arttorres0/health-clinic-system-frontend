@@ -1,0 +1,46 @@
+.result-file-wrapper {
+  padding: 0 12px;
+  span {
+    padding: 0;
+    float: left;
+    clear: both;
+    font-size: 12px !important;
+    width: 100%;
+    height: fit-content;
+  }
+  button {
+    float: left;
+    clear: both;
+    font-size: 12px;
+    margin-top: 10px;
+  }
+}
+
+.update-status-wrapper {
+  padding-top: 32px;
+  input {
+    display: none;
+  }
+  label {
+    float: left;
+    clear: both;
+    margin: 0;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: normal;
+  }
+  span {
+    float: left;
+    clear: both;
+    font-size: 12px;
+    margin-top: 5px;
+    margin-left: 10px;
+    max-width: 80%;
+  }
+  button {
+    float: left;
+    clear: both;
+    margin-top: 15px;
+    font-size: 12px;
+  }
+}

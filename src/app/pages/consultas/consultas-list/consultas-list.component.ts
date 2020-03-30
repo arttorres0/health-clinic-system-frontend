@@ -197,10 +197,6 @@ export class ConsultasListComponent implements OnInit {
     }
   }
 
-  clearDate(): void {
-    this.selectedFilterDate = null;
-  }
-
   clearMedico(): void {
     this.selectedFilterMedico = new Medico();
   }

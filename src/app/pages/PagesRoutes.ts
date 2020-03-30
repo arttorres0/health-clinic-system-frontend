@@ -7,6 +7,7 @@ import { MedicamentosListComponent } from "./medicamentos/medicamentos-list/medi
 import { CredenciaisAdminComponent } from "./credenciais-admin/credenciais-admin.component";
 import { AdminGuard } from "../auth/admin-guard";
 import { ReceitasDeMedicamentoListComponent } from "./receitas-de-medicamento/receitas-de-medicamento-list/receitas-de-medicamento-list.component";
+import { SolicitacoesDeExameListComponent } from "./solicitacoes-de-exame/solicitacoes-de-exame-list/solicitacoes-de-exame-list.component";
 
 export const PagesRoutes = [
   {
@@ -18,6 +19,11 @@ export const PagesRoutes = [
     path: "receitasDeMedicamento",
     component: ReceitasDeMedicamentoListComponent,
     menuName: "Receitas"
+  },
+  {
+    path: "solicitacoesDeExame",
+    component: SolicitacoesDeExameListComponent,
+    menuName: "Exames"
   },
   {
     path: "pacientes",
