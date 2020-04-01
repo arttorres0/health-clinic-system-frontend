@@ -22,8 +22,13 @@
             <fa-icon class="calendar-icon" [icon]="calendarIcon"></fa-icon>
           </div>
         </div>
-        <span *ngIf="!selectedFilterDate" class="form-control date-span"></span>
-        <span *ngIf="selectedFilterDate" class="form-control date-span"
+        <span
+          *ngIf="!selectedFilterDate"
+          class="form-control date-span with-clear-button"
+        ></span>
+        <span
+          *ngIf="selectedFilterDate"
+          class="form-control date-span with-clear-button"
           >{{ selectedFilterDate.day }}/{{ selectedFilterDate.month }}/{{
             selectedFilterDate.year
           }}</span
@@ -106,7 +111,7 @@
               </div>
             </div>
           </th>
-          <th scope="col">Exame</th>
+          <th class="exams-col" scope="col">Exames</th>
           <th class="details-col" scope="col">Detalhes</th>
         </tr>
       </thead>
@@ -116,7 +121,7 @@
           <td>{{ solicitacaoDeExame.data | dateFormat }}</td>
           <td>{{ solicitacaoDeExame.idMedico.nome }}</td>
           <td>{{ solicitacaoDeExame.idPaciente.nome }}</td>
-          <td>{{ solicitacaoDeExame.exame }}</td>
+          <td>{{ solicitacaoDeExame.exames.join(", ") }}</td>
           <td>
             <button
               class="btn btn-secondary page-button details-button"

@@ -55,7 +55,7 @@ export class SolicitacoesDeExameService {
       idPaciente: receitaDeMedicamento.idPaciente._id,
       idMedico: receitaDeMedicamento.idMedico._id,
       data: formatToStringDate(receitaDeMedicamento.data),
-      exame: receitaDeMedicamento.exame,
+      exames: receitaDeMedicamento.exames,
       observacao: receitaDeMedicamento.observacao
     };
 

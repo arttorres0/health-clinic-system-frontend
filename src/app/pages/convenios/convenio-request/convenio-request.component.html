@@ -30,9 +30,12 @@
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="nomeInput">Nome</label>
+        <span *ngIf="!editMode" class="form-control text-span">{{
+          convenio.nome
+        }}</span>
         <input
+          *ngIf="editMode"
           required
-          [disabled]="!editMode"
           id="nomeInput"
           type="text"
           class="form-control"
@@ -44,7 +47,7 @@
     <div class="form-row" *ngIf="convenio._id">
       <div class="form-group col-md-6">
         <label for="status">Ativo?</label>
-        <span id="status" class="form-control status-span disabled">{{
+        <span id="status" class="form-control text-span">{{
           convenio.ativo ? "Sim" : "Não"
         }}</span>
       </div>

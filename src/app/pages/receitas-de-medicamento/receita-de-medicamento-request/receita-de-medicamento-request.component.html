@@ -20,9 +20,12 @@
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="medicoInput">Médico(a)</label>
+        <span *ngIf="!editMode" class="form-control text-span">{{
+          formatterMedico(receitaDeMedicamento.idMedico)
+        }}</span>
         <input
+          *ngIf="editMode"
           required
-          [disabled]="!editMode"
           id="medicoInput"
           placeholder="Digite para pesquisar médicos(as)"
           type="text"
@@ -37,9 +40,12 @@
       </div>
       <div class="form-group col-md-6">
         <label for="pacienteInput">Paciente</label>
+        <span *ngIf="!editMode" class="form-control text-span">{{
+          formatterPaciente(receitaDeMedicamento.idPaciente)
+        }}</span>
         <input
+          *ngIf="editMode"
           required
-          [disabled]="!editMode"
           id="pacienteInput"
           placeholder="Digite para pesquisar pacientes"
           type="text"
@@ -50,7 +56,7 @@
           [inputFormatter]="formatterPaciente"
           [resultFormatter]="formatterPaciente"
           [editable]="false"
-          [placement]="['bottom-right']"
+          [placement]="['bottom-left']"
         />
       </div>
     </div>
@@ -94,9 +100,12 @@
       </div>
       <div class="form-group col-md-6">
         <label for="medicamentoInput">Medicamento</label>
+        <span *ngIf="!editMode" class="form-control text-span">{{
+          formatterMedicamento(receitaDeMedicamento.idMedicamento)
+        }}</span>
         <input
+          *ngIf="editMode"
           required
-          [disabled]="!editMode"
           id="medicamentoInput"
           placeholder="Digite para pesquisar medicamentos"
           type="text"
@@ -107,7 +116,7 @@
           [inputFormatter]="formatterMedicamento"
           [resultFormatter]="formatterMedicamento"
           [editable]="false"
-          [placement]="['bottom-right']"
+          [placement]="['bottom-left']"
         />
       </div>
     </div>

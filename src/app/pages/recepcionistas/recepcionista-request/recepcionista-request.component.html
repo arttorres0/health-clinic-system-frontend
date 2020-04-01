@@ -30,9 +30,12 @@
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="nomeInput">Nome</label>
+        <span *ngIf="!editMode" class="form-control text-span">{{
+          recepcionista.nome
+        }}</span>
         <input
+          *ngIf="editMode"
           required
-          [disabled]="!editMode"
           id="nomeInput"
           type="text"
           class="form-control"
@@ -157,9 +160,12 @@
       </div>
       <div class="form-group col-md-6">
         <label for="emailInput">Email</label>
+        <span *ngIf="!editMode" class="form-control text-span">{{
+          recepcionista.email
+        }}</span>
         <input
+          *ngIf="editMode"
           required
-          [disabled]="!editMode"
           id="emailInput"
           placeholder="Ex.: jose@hotmail.com"
           type="email"
@@ -201,7 +207,7 @@
     <div class="form-row" *ngIf="recepcionista._id">
       <div class="form-group col-md-6">
         <label for="status">Ativo?</label>
-        <span id="status" class="form-control status-span disabled">{{
+        <span id="status" class="form-control text-span">{{
           recepcionista.ativo ? "Sim" : "Não"
         }}</span>
       </div>

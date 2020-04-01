@@ -7,7 +7,7 @@ export class SolicitacaoDeExame {
   _id: string;
   idPaciente: Paciente;
   idMedico: Medico;
-  exame: string;
+  exames: string[];
   nomeArquivoResultado: string;
   data: NgbDateStruct;
   observacao: string;
@@ -16,7 +16,7 @@ export class SolicitacaoDeExame {
     this._id = solicitacaoDeExame?._id;
     this.idPaciente = new Paciente(solicitacaoDeExame?.idPaciente);
     this.idMedico = new Medico(solicitacaoDeExame?.idMedico);
-    this.exame = solicitacaoDeExame?.exame;
+    this.exames = solicitacaoDeExame?.exames;
     this.nomeArquivoResultado = solicitacaoDeExame?.nomeArquivoResultado;
     this.data = formatToNgbDate(solicitacaoDeExame?.data);
     this.observacao = solicitacaoDeExame?.observacao;

@@ -20,9 +20,12 @@
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="medicoInput">Médico(a)</label>
+        <span *ngIf="!editMode" class="form-control text-span">{{
+          formatterMedico(solicitacaoDeExame.idMedico)
+        }}</span>
         <input
+          *ngIf="editMode"
           required
-          [disabled]="!editMode"
           id="medicoInput"
           placeholder="Digite para pesquisar médicos(as)"
           type="text"
@@ -37,9 +40,12 @@
       </div>
       <div class="form-group col-md-6">
         <label for="pacienteInput">Paciente</label>
+        <span *ngIf="!editMode" class="form-control text-span">{{
+          formatterPaciente(solicitacaoDeExame.idPaciente)
+        }}</span>
         <input
+          *ngIf="editMode"
           required
-          [disabled]="!editMode"
           id="pacienteInput"
           placeholder="Digite para pesquisar pacientes"
           type="text"
@@ -50,7 +56,7 @@
           [inputFormatter]="formatterPaciente"
           [resultFormatter]="formatterPaciente"
           [editable]="false"
-          [placement]="['bottom-right']"
+          [placement]="['bottom-left']"
         />
       </div>
     </div>
@@ -94,33 +100,41 @@
       </div>
       <div class="form-group col-md-6">
         <label for="exameInput">Exame</label>
-        <input
-          class="form-control"
-          disabled
-          *ngIf="!editMode"
-          [(ngModel)]="solicitacaoDeExame.exame"
-          name="exame"
-        />
-        <select
+        <span *ngIf="!editMode" class="form-control text-span">{{
+          solicitacaoDeExame?.exames?.join(", ")
+        }}</span>
+        <ng-select
           *ngIf="editMode"
           required
-          class="form-control"
-          id="exameInput"
-          [(ngModel)]="solicitacaoDeExame.exame"
-          name="exame"
+          name="exames"
+          [items]="examTypesList"
+          [multiple]="true"
+          [closeOnSelect]="false"
+          placeholder="Selecione 1 ou mais exames"
+          [(ngModel)]="solicitacaoDeExame.exames"
         >
-          <ng-container *ngFor="let exame of examTypesList">
-            <option disabled selected value style="display: none;"></option>
-            <option>{{ exame }}</option>
-          </ng-container>
-        </select>
+          <ng-template
+            ng-option-tmp
+            let-item="item"
+            let-item$="item$"
+            let-index="index"
+          >
+            <input
+              id="item-{{ index }}"
+              type="checkbox"
+              [ngModel]="item$.selected"
+              [ngModelOptions]="{ standalone: true }"
+            />
+            {{ item }}
+          </ng-template>
+        </ng-select>
       </div>
     </div>
     <div class="form-row" *ngIf="!editMode">
       <div class="form-group col-md-6">
         <label for="status">Resultado</label>
         <div class="result-file-wrapper">
-          <span id="status" class="form-control status-span disabled">{{
+          <span id="status" class="form-control text-span">{{
             solicitacaoDeExame.nomeArquivoResultado || "Nenhum"
           }}</span>
           <button

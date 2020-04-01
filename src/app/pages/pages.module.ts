@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { AutosizeModule } from "ngx-autosize";
-
+import { NgSelectModule } from "@ng-select/ng-select";
 import { PagesRoutingModule } from "./pages-routing.module";
 import { PagesComponent } from "./pages.component";
 import { ConsultasListComponent } from "./consultas/consultas-list/consultas-list.component";
@@ -54,7 +54,8 @@ import { SolicitacaoDeExameRequestComponent } from "./solicitacoes-de-exame/soli
     NgbModule,
     FontAwesomeModule,
     SharedModule,
-    AutosizeModule
+    AutosizeModule,
+    NgSelectModule
   ]
 })
 export class PagesModule {}

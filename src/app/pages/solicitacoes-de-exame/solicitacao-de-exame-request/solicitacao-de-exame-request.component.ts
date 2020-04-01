@@ -84,7 +84,9 @@ export class SolicitacaoDeExameRequestComponent implements OnInit {
 
     this.solicitacoesDeExameService.getExamTypesList().subscribe(
       response => {
-        this.examTypesList = response.listaDeTiposDeExame;
+        this.examTypesList = response.listaDeTiposDeExame.sort((a, b) =>
+          a > b ? 1 : -1
+        );
         this.loadingService.setLoadingBoolean(false);
       },
       error => {

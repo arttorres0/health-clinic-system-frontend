@@ -1,4 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
+@import "~@ng-select/ng-select/themes/default.theme.css";
 @import "colors";
 
 html,
@@ -58,6 +59,16 @@ select:-webkit-autofill:focus {
     float: right;
     margin-bottom: 20px;
     font-size: 14px;
+  }
+  .table-responsive {
+    min-height: 200px;
+  }
+}
+
+.date-span {
+  border-radius: 0 0.25rem 0.25rem 0 !important;
+  .with-clear-button {
+    border-radius: 0 !important;
   }
 }
 
@@ -165,16 +176,26 @@ ngb-datepicker.dropdown-menu.show {
   transform: translate(0px, 0px) scale(0.75) !important;
 }
 
-ngb-modal-window .component-host-scrollable {
-  min-height: 80vh;
+ngb-typeahead-window.dropdown-menu.show {
+  max-height: 100px !important;
+  overflow-y: auto !important;
+  max-width: 85%;
+}
+
+ngb-modal-window {
+  .component-host-scrollable {
+    height: 100%;
+  }
+  .modal-content {
+    height: 100% !important;
+  }
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items {
+  max-height: 150px !important;
 }
 
 .modal-body {
-  ngb-typeahead-window.dropdown-menu.show {
-    max-height: 150px !important;
-    overflow-y: auto !important;
-  }
-
   label {
     font-weight: bold;
   }
@@ -187,11 +208,13 @@ ngb-modal-window .component-host-scrollable {
     clear: both;
   }
 
-  .date-span,
-  .status-span {
-    &.disabled {
-      border: none;
-    }
+  .text-span {
+    height: fit-content;
+    border: none;
+  }
+
+  .date-span.disabled {
+    border: none;
   }
 
   textarea {
@@ -271,4 +294,39 @@ ngb-modal-window .component-host-scrollable {
   .modal-xl {
     max-width: 800px;
   }
+}
+
+.ng-select .ng-arrow-wrapper .ng-arrow {
+  border-width: 7px 3px 2.5px;
+}
+
+.ng-select.ng-select-opened > .ng-select-container .ng-arrow {
+  border-width: 0 3px 7px;
+}
+
+.ng-select.ng-select-multiple
+  .ng-select-container
+  .ng-value-container
+  .ng-placeholder {
+  padding-bottom: 0;
+  font-size: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.ng-select.ng-select-multiple
+  .ng-select-container
+  .ng-value-container
+  .ng-value,
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+  font-size: 12px;
+}
+
+.ng-select .ng-select-container:hover {
+  box-shadow: none;
+}
+
+.dropdown-item {
+  font-size: 12px !important;
 }

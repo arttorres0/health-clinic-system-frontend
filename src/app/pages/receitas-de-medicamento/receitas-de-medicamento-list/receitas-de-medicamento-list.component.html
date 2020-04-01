@@ -22,8 +22,13 @@
             <fa-icon class="calendar-icon" [icon]="calendarIcon"></fa-icon>
           </div>
         </div>
-        <span *ngIf="!selectedFilterDate" class="form-control date-span"></span>
-        <span *ngIf="selectedFilterDate" class="form-control date-span"
+        <span
+          *ngIf="!selectedFilterDate"
+          class="form-control date-span with-clear-button"
+        ></span>
+        <span
+          *ngIf="selectedFilterDate"
+          class="form-control date-span with-clear-button"
           >{{ selectedFilterDate.day }}/{{ selectedFilterDate.month }}/{{
             selectedFilterDate.year
           }}</span
