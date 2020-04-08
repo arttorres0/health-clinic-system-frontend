@@ -29,7 +29,7 @@
   <form #medicoForm="ngForm">
     <div class="form-row">
       <div class="form-group col-md-6">
-        <label for="nomeInput">Nome</label>
+        <label for="nomeInput">Nome{{ editMode ? "*" : "" }}</label>
         <span *ngIf="!editMode" class="form-control text-span">{{
           medico.nome
         }}</span>
@@ -44,7 +44,7 @@
         />
       </div>
       <div class="form-group col-md-6">
-        <label for="cpfInput">CPF</label>
+        <label for="cpfInput">CPF{{ editMode ? "*" : "" }}</label>
         <input
           required
           [disabled]="!editMode"
@@ -61,7 +61,7 @@
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="dataDeNascimentoInput" class="page-filters-label"
-          >Data de Nascimento</label
+          >Data de Nascimento{{ editMode ? "*" : "" }}</label
         >
         <div class="input-group">
           <div class="input-group-prepend">
@@ -102,7 +102,7 @@
       </div>
       <div class="form-group col-md-6">
         <label for="dataDeAdmissaoInput" class="page-filters-label"
-          >Data de Admissão</label
+          >Data de Admissão{{ editMode ? "*" : "" }}</label
         >
         <div class="input-group">
           <div class="input-group-prepend">
@@ -145,7 +145,7 @@
     </div>
     <div class="form-row">
       <div class="form-group col-md-6">
-        <label for="telefoneInput">Telefone</label>
+        <label for="telefoneInput">Telefone{{ editMode ? "*" : "" }}</label>
         <input
           required
           [disabled]="!editMode"
@@ -159,7 +159,7 @@
         />
       </div>
       <div class="form-group col-md-6">
-        <label for="emailInput">Email</label>
+        <label for="emailInput">Email{{ editMode ? "*" : "" }}</label>
         <span *ngIf="!editMode" class="form-control text-span">{{
           medico.email
         }}</span>
@@ -177,7 +177,7 @@
     </div>
     <div class="form-row">
       <div class="form-group col-md-6">
-        <label for="crmInput">CRM</label>
+        <label for="crmInput">CRM{{ editMode ? "*" : "" }}</label>
         <input
           required
           [disabled]="!editMode"
@@ -225,7 +225,7 @@
     </div>
     <div class="form-row" *ngIf="userIsAdmin()">
       <div class="form-group col-md-6">
-        <label for="loginInput">Login</label>
+        <label for="loginInput">Login{{ editMode ? "*" : "" }}</label>
         <input
           required
           [disabled]="!editMode"
@@ -237,7 +237,7 @@
         />
       </div>
       <div class="form-group col-md-6">
-        <label for="senhaInput">Senha</label>
+        <label for="senhaInput">Senha{{ editMode ? "*" : "" }}</label>
         <div class="row align-items-center password-input-wrapper">
           <input
             required

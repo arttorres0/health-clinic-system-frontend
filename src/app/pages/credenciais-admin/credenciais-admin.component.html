@@ -4,7 +4,7 @@
   <form #adminCredentialsForm="ngForm">
     <div class="form-row">
       <div class="form-group col-md-4">
-        <label for="loginInput">Login</label>
+        <label for="loginInput">Login{{ editMode ? "*" : "" }}</label>
         <div class="row align-items-center password-input-wrapper">
           <input
             required
@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="form-group col-md-4">
-        <label for="senhaInput">Senha</label>
+        <label for="senhaInput">Senha{{ editMode ? "*" : "" }}</label>
         <div class="row align-items-center password-input-wrapper">
           <input
             required

@@ -19,7 +19,7 @@
   <form #receitaDeMedicamentoForm="ngForm">
     <div class="form-row">
       <div class="form-group col-md-6">
-        <label for="medicoInput">Médico(a)</label>
+        <label for="medicoInput">Médico(a){{ editMode ? "*" : "" }}</label>
         <span *ngIf="!editMode" class="form-control text-span">{{
           formatterMedico(receitaDeMedicamento.idMedico)
         }}</span>
@@ -39,7 +39,7 @@
         />
       </div>
       <div class="form-group col-md-6">
-        <label for="pacienteInput">Paciente</label>
+        <label for="pacienteInput">Paciente{{ editMode ? "*" : "" }}</label>
         <span *ngIf="!editMode" class="form-control text-span">{{
           formatterPaciente(receitaDeMedicamento.idPaciente)
         }}</span>
@@ -62,7 +62,9 @@
     </div>
     <div class="form-row">
       <div class="form-group col-md-6">
-        <label for="dateInput" class="page-filters-label">Data</label>
+        <label for="dateInput" class="page-filters-label"
+          >Data{{ editMode ? "*" : "" }}</label
+        >
         <div class="input-group">
           <div class="input-group-prepend">
             <div
@@ -99,7 +101,9 @@
         </div>
       </div>
       <div class="form-group col-md-6">
-        <label for="medicamentoInput">Medicamento</label>
+        <label for="medicamentoInput"
+          >Medicamento{{ editMode ? "*" : "" }}</label
+        >
         <span *ngIf="!editMode" class="form-control text-span">{{
           formatterMedicamento(receitaDeMedicamento.idMedicamento)
         }}</span>

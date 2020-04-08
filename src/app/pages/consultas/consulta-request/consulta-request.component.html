@@ -32,7 +32,7 @@
   <form #consultaForm="ngForm">
     <div class="form-row">
       <div class="form-group col-md-6">
-        <label for="medicoInput">Médico(a)</label>
+        <label for="medicoInput">Médico(a){{ editMode ? "*" : "" }}</label>
         <span *ngIf="!editMode" class="form-control text-span">{{
           formatterMedico(consulta.idMedico)
         }}</span>
@@ -52,7 +52,7 @@
         />
       </div>
       <div class="form-group col-md-6">
-        <label for="pacienteInput">Paciente</label>
+        <label for="pacienteInput">Paciente{{ editMode ? "*" : "" }}</label>
         <span *ngIf="!editMode" class="form-control text-span">{{
           formatterPaciente(consulta.idPaciente)
         }}</span>
@@ -75,7 +75,9 @@
     </div>
     <div class="form-row">
       <div class="form-group col-md-6">
-        <label for="dateInput" class="page-filters-label">Data</label>
+        <label for="dateInput" class="page-filters-label"
+          >Data{{ editMode ? "*" : "" }}</label
+        >
         <div class="input-group">
           <div class="input-group-prepend">
             <div
@@ -112,7 +114,7 @@
         </div>
       </div>
       <div class="form-group col-md-6">
-        <label for="horaInput">Hora</label>
+        <label for="horaInput">Hora{{ editMode ? "*" : "" }}</label>
         <select
           [disabled]="!editMode"
           required
@@ -130,7 +132,7 @@
     </div>
     <div class="form-row">
       <div class="form-group col-md-6">
-        <label for="tipoInput">Tipo</label>
+        <label for="tipoInput">Tipo{{ editMode ? "*" : "" }}</label>
         <select
           [disabled]="!editMode"
           style="text-transform: capitalize;"
@@ -149,7 +151,7 @@
         </select>
       </div>
       <div *ngIf="consulta.tipo === 'CONVENIO'" class="form-group col-md-6">
-        <label for="convenioInput">Convênio</label>
+        <label for="convenioInput">Convênio{{ editMode ? "*" : "" }}</label>
         <span *ngIf="!editMode" class="form-control text-span">{{
           formatterConvenio(consulta.idConvenio)
         }}</span>

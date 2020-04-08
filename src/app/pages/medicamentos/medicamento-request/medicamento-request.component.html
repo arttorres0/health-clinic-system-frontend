@@ -29,7 +29,9 @@
   <form #medicamentoForm="ngForm">
     <div class="form-row">
       <div class="form-group col-md-6">
-        <label for="nomeGenericoInput">Nome Genérico</label>
+        <label for="nomeGenericoInput"
+          >Nome Genérico{{ editMode ? "*" : "" }}</label
+        >
         <span *ngIf="!editMode" class="form-control text-span">{{
           medicamento.nomeGenerico
         }}</span>
@@ -44,7 +46,9 @@
         />
       </div>
       <div class="form-group col-md-6">
-        <label for="nomeDeFabricaInput">Nome de Fábrica</label>
+        <label for="nomeDeFabricaInput"
+          >Nome de Fábrica{{ editMode ? "*" : "" }}</label
+        >
         <span *ngIf="!editMode" class="form-control text-span">{{
           medicamento.nomeDeFabrica
         }}</span>
@@ -61,7 +65,7 @@
     </div>
     <div class="form-row">
       <div class="form-group col-md-6">
-        <label for="fabricanteInput">Fabricante</label>
+        <label for="fabricanteInput">Fabricante{{ editMode ? "*" : "" }}</label>
         <span *ngIf="!editMode" class="form-control text-span">{{
           medicamento.fabricante
         }}</span>

@@ -29,7 +29,7 @@
   <form #convenioForm="ngForm">
     <div class="form-row">
       <div class="form-group col-md-6">
-        <label for="nomeInput">Nome</label>
+        <label for="nomeInput">Nome{{ editMode ? "*" : "" }}</label>
         <span *ngIf="!editMode" class="form-control text-span">{{
           convenio.nome
         }}</span>
