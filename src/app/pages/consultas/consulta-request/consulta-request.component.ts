@@ -1,18 +1,30 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
-import { NgbActiveModal, NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+} from "@angular/core";
+import {
+  NgbActiveModal,
+  NgbDateStruct,
+  NgbTypeahead,
+} from "@ng-bootstrap/ng-bootstrap";
 import { Consulta, WorkingHours, ConsultaTypes } from "../Consulta";
 import { Medico } from "../../medicos/Medico";
 import { Paciente } from "../../pacientes/Paciente";
 import { Convenio } from "../../convenios/Convenio";
 import { MedicosService } from "../../medicos/medicos.service";
 import { PacientesService } from "../../pacientes/pacientes.service";
-import { Observable } from "rxjs";
+import { Observable, Subject, merge } from "rxjs";
 import {
   debounceTime,
   distinctUntilChanged,
   map,
   catchError,
-  switchMap
+  switchMap,
+  filter,
 } from "rxjs/operators";
 import { ToastService } from "src/app/toast/toast.service";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
@@ -23,7 +35,7 @@ import { ConveniosService } from "../../convenios/convenios.service";
 @Component({
   selector: "app-consulta-request",
   templateUrl: "./consulta-request.component.html",
-  styleUrls: ["./consulta-request.component.scss"]
+  styleUrls: ["./consulta-request.component.scss"],
 })
 export class ConsultaRequestComponent implements OnInit {
   readonly workingHours: number[] = WorkingHours;
@@ -38,6 +50,21 @@ export class ConsultaRequestComponent implements OnInit {
   @Input() editMode: boolean;
 
   @Output() updateList: EventEmitter<any> = new EventEmitter();
+
+  @ViewChild("instanceFilterMedico", { static: true })
+  instanceFilterMedico: NgbTypeahead;
+  focusFilterMedico$ = new Subject<string>();
+  clickFilterMedico$ = new Subject<string>();
+
+  @ViewChild("instanceFilterPaciente", { static: true })
+  instanceFilterPaciente: NgbTypeahead;
+  focusFilterPaciente$ = new Subject<string>();
+  clickFilterPaciente$ = new Subject<string>();
+
+  @ViewChild("instanceFilterConvenio", { static: true })
+  instanceFilterConvenio: NgbTypeahead;
+  focusFilterConvenio$ = new Subject<string>();
+  clickFilterConvenio$ = new Subject<string>();
 
   consulta: Consulta;
   title: string;
@@ -76,11 +103,11 @@ export class ConsultaRequestComponent implements OnInit {
     this.loadingService.setLoadingBoolean(true);
 
     this.consultasService.getConsulta(consultaId).subscribe(
-      response => {
+      (response) => {
         this.consulta = new Consulta(response.consulta);
         this.loadingService.setLoadingBoolean(false);
       },
-      error => {
+      (error) => {
         this.loadingService.setLoadingBoolean(false);
         this.toastService.error(error.error.message);
       }
@@ -89,75 +116,117 @@ export class ConsultaRequestComponent implements OnInit {
 
   formatterMedico = (medico: Medico): string => medico.nome;
 
-  searchMedico = (text$: Observable<string>): Observable<any[]> =>
-    text$.pipe(
+  clickFilterMedicoEvent($event, typeaheadInstance) {
+    if (typeaheadInstance.isPopupOpen()) {
+      this.clickFilterMedico$.next($event.target.value);
+    }
+  }
+
+  searchMedico = (text$: Observable<string>): Observable<any[]> => {
+    const debouncedText$ = text$.pipe(
       debounceTime(300),
-      distinctUntilChanged(),
-      switchMap(term =>
+      distinctUntilChanged()
+    );
+
+    return merge(
+      debouncedText$,
+      this.focusFilterMedico$,
+      this.clickFilterMedico$
+    ).pipe(
+      switchMap((term) =>
         this.medicosService.getMedicosList({ filter: term, ativo: true }).pipe(
-          map(response => {
+          map((response) => {
             return response.medicos;
           }),
-          catchError(error => {
+          catchError((error) => {
             this.toastService.error(error.error.message);
             return [];
           })
         )
       )
     );
+  };
 
   formatterPaciente = (paciente: Paciente): string => paciente.nome;
 
-  searchPaciente = (text$: Observable<string>): Observable<any[]> =>
-    text$.pipe(
+  clickFilterPacienteEvent($event, typeaheadInstance) {
+    if (typeaheadInstance.isPopupOpen()) {
+      this.clickFilterPaciente$.next($event.target.value);
+    }
+  }
+
+  searchPaciente = (text$: Observable<string>): Observable<any[]> => {
+    const debouncedText$ = text$.pipe(
       debounceTime(300),
-      distinctUntilChanged(),
-      switchMap(term =>
+      distinctUntilChanged()
+    );
+
+    return merge(
+      debouncedText$,
+      this.focusFilterPaciente$,
+      this.clickFilterPaciente$
+    ).pipe(
+      switchMap((term) =>
         this.pacientesService
           .getPacientesList({ filter: term, ativo: true })
           .pipe(
-            map(response => {
+            map((response) => {
               return response.pacientes;
             }),
-            catchError(error => {
+            catchError((error) => {
               this.toastService.error(error.error.message);
               return [];
             })
           )
       )
     );
+  };
 
   formatterConvenio = (convenio: Convenio): string => convenio.nome;
 
-  searchConvenio = (text$: Observable<string>): Observable<any[]> =>
-    text$.pipe(
+  clickFilterConvenioEvent($event, typeaheadInstance) {
+    if (typeaheadInstance.isPopupOpen()) {
+      this.clickFilterConvenio$.next($event.target.value);
+    }
+  }
+
+  searchConvenio = (text$: Observable<string>): Observable<any[]> => {
+    const debouncedText$ = text$.pipe(
       debounceTime(300),
-      distinctUntilChanged(),
-      switchMap(term =>
+      distinctUntilChanged()
+    );
+
+    return merge(
+      debouncedText$,
+      this.focusFilterConvenio$,
+      this.clickFilterConvenio$
+    ).pipe(
+      switchMap((term) =>
         this.conveniosService
           .getConveniosList({ filter: term, ativo: true })
           .pipe(
-            map(response => {
+            map((response) => {
               return response.convenios;
             }),
-            catchError(error => {
+            catchError((error) => {
               this.toastService.error(error.error.message);
               return [];
             })
           )
       )
     );
+  };
 
   saveConsulta() {
     this.loadingService.setLoadingBoolean(true);
 
     this.consultasService.saveConsulta(this.consulta).subscribe(
-      response => {
+      (response) => {
         this.getConsulta(response.consulta._id);
         this.updateList.next();
         this.toastService.success(response.message);
       },
-      error => {
+      (error) => {
         this.loadingService.setLoadingBoolean(false);
         this.toastService.error(error.error.message);
       }
@@ -168,12 +237,12 @@ export class ConsultaRequestComponent implements OnInit {
     this.loadingService.setLoadingBoolean(true);
 
     this.consultasService.updateConsulta(this.consulta, status).subscribe(
-      response => {
+      (response) => {
         this.getConsulta(response.consulta._id);
         this.updateList.next();
         this.toastService.success(response.message);
       },
-      error => {
+      (error) => {
         this.loadingService.setLoadingBoolean(false);
         this.toastService.error(error.error.message);
       }
@@ -184,12 +253,12 @@ export class ConsultaRequestComponent implements OnInit {
     this.loadingService.setLoadingBoolean(true);
 
     this.consultasService.deleteConsulta(this.consulta).subscribe(
-      response => {
+      (response) => {
         this.updateList.next();
         this.activeModal.close();
         this.toastService.success(response.message);
       },
-      error => {
+      (error) => {
         this.loadingService.setLoadingBoolean(false);
         this.toastService.error(error.error.message);
       }

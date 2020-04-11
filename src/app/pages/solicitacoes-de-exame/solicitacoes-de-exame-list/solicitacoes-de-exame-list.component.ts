@@ -1,15 +1,20 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { SolicitacoesDeExameService } from "../solicitacoes-de-exame.service";
 import { LoadingService } from "src/app/loading/loading.service";
 import { ToastService } from "src/app/toast/toast.service";
-import { NgbDateStruct, NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { Observable } from "rxjs";
+import {
+  NgbDateStruct,
+  NgbModal,
+  NgbTypeahead,
+} from "@ng-bootstrap/ng-bootstrap";
+import { Observable, Subject, merge } from "rxjs";
 import {
   debounceTime,
   distinctUntilChanged,
   switchMap,
   catchError,
-  map
+  map,
+  filter,
 } from "rxjs/operators";
 import { MedicosService } from "../../medicos/medicos.service";
 import { Medico } from "../../medicos/Medico";
@@ -24,7 +29,7 @@ import { AuthService } from "src/app/auth/auth.service";
 @Component({
   selector: "app-solicitacoes-de-exame-list",
   templateUrl: "./solicitacoes-de-exame-list.component.html",
-  styleUrls: ["./solicitacoes-de-exame-list.component.scss"]
+  styleUrls: ["./solicitacoes-de-exame-list.component.scss"],
 })
 export class SolicitacoesDeExameListComponent implements OnInit {
   solicitacoesDeExame: SolicitacaoDeExame[];
@@ -38,6 +43,16 @@ export class SolicitacoesDeExameListComponent implements OnInit {
   selectedFilterPaciente: Paciente;
   prevSelectedFilterMedico: Medico;
   selectedFilterMedico: Medico;
+
+  @ViewChild("instanceFilterMedico", { static: true })
+  instanceFilterMedico: NgbTypeahead;
+  focusFilterMedico$ = new Subject<string>();
+  clickFilterMedico$ = new Subject<string>();
+
+  @ViewChild("instanceFilterPaciente", { static: true })
+  instanceFilterPaciente: NgbTypeahead;
+  focusFilterPaciente$ = new Subject<string>();
+  clickFilterPaciente$ = new Subject<string>();
 
   calendarIcon = faCalendarAlt;
 
@@ -92,17 +107,17 @@ export class SolicitacoesDeExameListComponent implements OnInit {
         idPaciente: this.selectedFilterPaciente._id,
         idMedico: this.selectedFilterMedico._id,
         data: this.selectedFilterDate,
-        page: this.page
+        page: this.page,
       })
       .subscribe(
-        response => {
+        (response) => {
           this.solicitacoesDeExame = response.solicitacoesDeExame;
           this.numberOfResults = response.numberOfResults;
           this.page = Number(response.page);
           this.pageSize = response.pageSize;
           this.loadingService.setLoadingBoolean(false);
         },
-        error => {
+        (error) => {
           this.loadingService.setLoadingBoolean(false);
           this.toastService.error(error.error.message);
         }
@@ -111,41 +126,63 @@ export class SolicitacoesDeExameListComponent implements OnInit {
 
   formatterMedico = (medico: Medico): string => medico.nome;
 
-  searchMedico = (text$: Observable<string>): Observable<any[]> =>
-    text$.pipe(
+  searchMedico = (text$: Observable<string>): Observable<any[]> => {
+    const debouncedText$ = text$.pipe(
       debounceTime(300),
-      distinctUntilChanged(),
-      switchMap(term =>
+      distinctUntilChanged()
+    );
+    const clicksWithClosedPopup$ = this.clickFilterMedico$.pipe(
+      filter(() => !this.instanceFilterMedico.isPopupOpen())
+    );
+
+    return merge(
+      debouncedText$,
+      this.focusFilterMedico$,
+      clicksWithClosedPopup$
+    ).pipe(
+      switchMap((term) =>
         this.medicosService.getMedicosList({ filter: term }).pipe(
-          map(response => {
+          map((response) => {
             return response.medicos;
           }),
-          catchError(error => {
+          catchError((error) => {
             this.toastService.error(error.error.message);
             return [];
           })
         )
       )
     );
+  };
 
   formatterPaciente = (paciente: Paciente): string => paciente.nome;
 
-  searchPaciente = (text$: Observable<string>): Observable<any[]> =>
-    text$.pipe(
+  searchPaciente = (text$: Observable<string>): Observable<any[]> => {
+    const debouncedText$ = text$.pipe(
       debounceTime(300),
-      distinctUntilChanged(),
-      switchMap(term =>
+      distinctUntilChanged()
+    );
+    const clicksWithClosedPopup$ = this.clickFilterPaciente$.pipe(
+      filter(() => !this.instanceFilterPaciente.isPopupOpen())
+    );
+
+    return merge(
+      debouncedText$,
+      this.focusFilterPaciente$,
+      clicksWithClosedPopup$
+    ).pipe(
+      switchMap((term) =>
         this.pacientesService.getPacientesList({ filter: term }).pipe(
-          map(response => {
+          map((response) => {
             return response.pacientes;
           }),
-          catchError(error => {
+          catchError((error) => {
             this.toastService.error(error.error.message);
             return [];
           })
         )
       )
     );
+  };
 
   clearDate(): void {
     this.selectedFilterDate = null;
@@ -161,7 +198,7 @@ export class SolicitacoesDeExameListComponent implements OnInit {
 
   openSolicitacaoDeExameModal({
     editMode,
-    solicitacaoDeExameId
+    solicitacaoDeExameId,
   }: {
     editMode: boolean;
     solicitacaoDeExameId?: string;
@@ -171,7 +208,7 @@ export class SolicitacoesDeExameListComponent implements OnInit {
       {
         centered: true,
         size: "lg",
-        scrollable: true
+        scrollable: true,
       }
     );
 

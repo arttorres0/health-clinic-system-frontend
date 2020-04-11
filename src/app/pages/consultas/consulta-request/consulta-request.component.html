@@ -49,6 +49,9 @@
           [inputFormatter]="formatterMedico"
           [resultFormatter]="formatterMedico"
           [editable]="false"
+          (focus)="focusFilterMedico$.next($any($event).target.value)"
+          (click)="clickFilterMedicoEvent($event, instanceFilterMedico)"
+          #instanceFilterMedico="ngbTypeahead"
         />
       </div>
       <div class="form-group col-md-6">
@@ -70,6 +73,9 @@
           [resultFormatter]="formatterPaciente"
           [editable]="false"
           [placement]="['bottom-left']"
+          (focus)="focusFilterPaciente$.next($any($event).target.value)"
+          (click)="clickFilterPacienteEvent($event, instanceFilterPaciente)"
+          #instanceFilterPaciente="ngbTypeahead"
         />
       </div>
     </div>
@@ -168,7 +174,10 @@
           [inputFormatter]="formatterConvenio"
           [resultFormatter]="formatterConvenio"
           [editable]="false"
-          [placement]="['top-right']"
+          [placement]="['bottom-left']"
+          (focus)="focusFilterConvenio$.next($any($event).target.value)"
+          (click)="clickFilterConvenioEvent($event, instanceFilterConvenio)"
+          #instanceFilterConvenio="ngbTypeahead"
         />
       </div>
     </div>

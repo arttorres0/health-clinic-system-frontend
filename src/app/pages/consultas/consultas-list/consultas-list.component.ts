@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { ConsultasService } from "../consultas.service";
 import { LoadingService } from "src/app/loading/loading.service";
 import { ToastService } from "src/app/toast/toast.service";
@@ -6,14 +6,16 @@ import {
   NgbDateStruct,
   NgbCalendar,
   NgbModal,
+  NgbTypeahead,
 } from "@ng-bootstrap/ng-bootstrap";
-import { Observable } from "rxjs";
+import { Observable, Subject, merge } from "rxjs";
 import {
   debounceTime,
   distinctUntilChanged,
   switchMap,
   catchError,
   map,
+  filter,
 } from "rxjs/operators";
 import { MedicosService } from "../../medicos/medicos.service";
 import { Medico } from "../../medicos/Medico";
@@ -44,6 +46,16 @@ export class ConsultasListComponent implements OnInit {
   selectedFilterPaciente: Paciente;
   prevSelectedFilterMedico: Medico;
   selectedFilterMedico: Medico;
+
+  @ViewChild("instanceFilterMedico", { static: true })
+  instanceFilterMedico: NgbTypeahead;
+  focusFilterMedico$ = new Subject<string>();
+  clickFilterMedico$ = new Subject<string>();
+
+  @ViewChild("instanceFilterPaciente", { static: true })
+  instanceFilterPaciente: NgbTypeahead;
+  focusFilterPaciente$ = new Subject<string>();
+  clickFilterPaciente$ = new Subject<string>();
 
   calendarIcon = faCalendarAlt;
 
@@ -151,10 +163,20 @@ export class ConsultasListComponent implements OnInit {
 
   formatterMedico = (medico: Medico): string => medico.nome;
 
-  searchMedico = (text$: Observable<any>): Observable<any[]> =>
-    text$.pipe(
+  searchMedico = (text$: Observable<string>): Observable<any[]> => {
+    const debouncedText$ = text$.pipe(
       debounceTime(300),
-      distinctUntilChanged(),
+      distinctUntilChanged()
+    );
+    const clicksWithClosedPopup$ = this.clickFilterMedico$.pipe(
+      filter(() => !this.instanceFilterMedico.isPopupOpen())
+    );
+
+    return merge(
+      debouncedText$,
+      this.focusFilterMedico$,
+      clicksWithClosedPopup$
+    ).pipe(
       switchMap((term) =>
         this.medicosService.getMedicosList({ filter: term }).pipe(
           map((response) => {
@@ -167,13 +189,24 @@ export class ConsultasListComponent implements OnInit {
         )
       )
     );
+  };
 
   formatterPaciente = (paciente: Paciente): string => paciente.nome;
 
-  searchPaciente = (text$: Observable<string>): Observable<any[]> =>
-    text$.pipe(
+  searchPaciente = (text$: Observable<string>): Observable<any[]> => {
+    const debouncedText$ = text$.pipe(
       debounceTime(300),
-      distinctUntilChanged(),
+      distinctUntilChanged()
+    );
+    const clicksWithClosedPopup$ = this.clickFilterPaciente$.pipe(
+      filter(() => !this.instanceFilterPaciente.isPopupOpen())
+    );
+
+    return merge(
+      debouncedText$,
+      this.focusFilterPaciente$,
+      clicksWithClosedPopup$
+    ).pipe(
       switchMap((term) =>
         this.pacientesService.getPacientesList({ filter: term }).pipe(
           map((response) => {
@@ -186,6 +219,7 @@ export class ConsultasListComponent implements OnInit {
         )
       )
     );
+  };
 
   filterConsultasListByHour(hour: number): any[] {
     if (this.consultas) {

@@ -86,6 +86,9 @@
                   [resultFormatter]="formatterMedico"
                   [editable]="false"
                   [placement]="['bottom-left']"
+                  (focus)="focusFilterMedico$.next($any($event).target.value)"
+                  (click)="clickFilterMedico$.next($any($event).target.value)"
+                  #instanceFilterMedico="ngbTypeahead"
                 />
                 <div class="input-group-append">
                   <button
@@ -113,6 +116,9 @@
                   [resultFormatter]="formatterPaciente"
                   [editable]="false"
                   [placement]="['bottom-left']"
+                  (focus)="focusFilterPaciente$.next($any($event).target.value)"
+                  (click)="clickFilterPaciente$.next($any($event).target.value)"
+                  #instanceFilterPaciente="ngbTypeahead"
                 />
                 <div class="input-group-append">
                   <button
