@@ -137,11 +137,7 @@
               <td>{{ hour }}</td>
               <td colspan="3">
                 <button
-                  [disabled]="
-                    (selectedFilterMedico._id && !selectedFilterMedico.ativo) ||
-                    (selectedFilterPaciente._id &&
-                      !selectedFilterPaciente.ativo)
-                  "
+                  [disabled]="insideTableNewButtonIsDisabled()"
                   class="btn btn-secondary page-button new-button-in-table"
                   (click)="
                     openConsultaModal({

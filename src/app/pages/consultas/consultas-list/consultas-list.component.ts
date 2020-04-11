@@ -5,7 +5,7 @@ import { ToastService } from "src/app/toast/toast.service";
 import {
   NgbDateStruct,
   NgbCalendar,
-  NgbModal
+  NgbModal,
 } from "@ng-bootstrap/ng-bootstrap";
 import { Observable } from "rxjs";
 import {
@@ -13,7 +13,7 @@ import {
   distinctUntilChanged,
   switchMap,
   catchError,
-  map
+  map,
 } from "rxjs/operators";
 import { MedicosService } from "../../medicos/medicos.service";
 import { Medico } from "../../medicos/Medico";
@@ -26,7 +26,7 @@ import { ConsultaRequestComponent } from "../consulta-request/consulta-request.c
 @Component({
   selector: "app-consultas-list",
   templateUrl: "./consultas-list.component.html",
-  styleUrls: ["./consultas-list.component.scss"]
+  styleUrls: ["./consultas-list.component.scss"],
 })
 export class ConsultasListComponent implements OnInit {
   readonly viewModeTypes: typeof ViewModeTypes = ViewModeTypes;
@@ -110,15 +110,15 @@ export class ConsultasListComponent implements OnInit {
           .getConsultasDay({
             idPaciente: this.selectedFilterPaciente._id,
             idMedico: this.selectedFilterMedico._id,
-            data: this.selectedFilterDate
+            data: this.selectedFilterDate,
           })
           .subscribe(
-            response => {
+            (response) => {
               this.consultas = response.consultas;
               this.numberOfResults = response.numberOfResults;
               this.loadingService.setLoadingBoolean(false);
             },
-            error => {
+            (error) => {
               this.loadingService.setLoadingBoolean(false);
               this.toastService.error(error.error.message);
             }
@@ -130,17 +130,17 @@ export class ConsultasListComponent implements OnInit {
           .getConsultasList({
             idPaciente: this.selectedFilterPaciente._id,
             idMedico: this.selectedFilterMedico._id,
-            page: this.page
+            page: this.page,
           })
           .subscribe(
-            response => {
+            (response) => {
               this.consultas = response.consultas;
               this.numberOfResults = response.numberOfResults;
               this.page = Number(response.page);
               this.pageSize = response.pageSize;
               this.loadingService.setLoadingBoolean(false);
             },
-            error => {
+            (error) => {
               this.loadingService.setLoadingBoolean(false);
               this.toastService.error(error.error.message);
             }
@@ -151,16 +151,16 @@ export class ConsultasListComponent implements OnInit {
 
   formatterMedico = (medico: Medico): string => medico.nome;
 
-  searchMedico = (text$: Observable<string>): Observable<any[]> =>
+  searchMedico = (text$: Observable<any>): Observable<any[]> =>
     text$.pipe(
       debounceTime(300),
       distinctUntilChanged(),
-      switchMap(term =>
+      switchMap((term) =>
         this.medicosService.getMedicosList({ filter: term }).pipe(
-          map(response => {
+          map((response) => {
             return response.medicos;
           }),
-          catchError(error => {
+          catchError((error) => {
             this.toastService.error(error.error.message);
             return [];
           })
@@ -174,12 +174,12 @@ export class ConsultasListComponent implements OnInit {
     text$.pipe(
       debounceTime(300),
       distinctUntilChanged(),
-      switchMap(term =>
+      switchMap((term) =>
         this.pacientesService.getPacientesList({ filter: term }).pipe(
-          map(response => {
+          map((response) => {
             return response.pacientes;
           }),
-          catchError(error => {
+          catchError((error) => {
             this.toastService.error(error.error.message);
             return [];
           })
@@ -189,7 +189,7 @@ export class ConsultasListComponent implements OnInit {
 
   filterConsultasListByHour(hour: number): any[] {
     if (this.consultas) {
-      return this.consultas.filter(consulta => {
+      return this.consultas.filter((consulta) => {
         return consulta.hora === hour;
       });
     } else {
@@ -211,7 +211,7 @@ export class ConsultasListComponent implements OnInit {
     data,
     hora,
     editMode,
-    consultaId
+    consultaId,
   }: {
     medico?: Medico;
     paciente?: Paciente;
@@ -223,7 +223,7 @@ export class ConsultasListComponent implements OnInit {
     const modalRef = this.modalService.open(ConsultaRequestComponent, {
       centered: true,
       size: "lg",
-      scrollable: true
+      scrollable: true,
     });
 
     modalRef.componentInstance.editMode = editMode;
@@ -236,5 +236,22 @@ export class ConsultasListComponent implements OnInit {
     modalRef.componentInstance.updateList.subscribe(() => {
       this.getConsultasList();
     });
+  }
+
+  insideTableNewButtonIsDisabled(): boolean {
+    if (this.selectedFilterMedico && this.selectedFilterPaciente) {
+      return (
+        (this.selectedFilterMedico._id && !this.selectedFilterMedico.ativo) ||
+        (this.selectedFilterPaciente._id && !this.selectedFilterPaciente.ativo)
+      );
+    } else if (this.selectedFilterMedico && !this.selectedFilterPaciente) {
+      return this.selectedFilterMedico._id && !this.selectedFilterMedico.ativo;
+    } else if (!this.selectedFilterMedico && this.selectedFilterPaciente) {
+      return (
+        this.selectedFilterPaciente._id && !this.selectedFilterPaciente.ativo
+      );
+    } else {
+      return false;
+    }
   }
 }
