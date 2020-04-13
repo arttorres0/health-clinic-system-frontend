@@ -20,7 +20,7 @@ export class AuthGuard implements CanActivate {
     }
 
     if (this.authService.isTokenExpired(token)) {
-      this.router.navigate(["/login"]);
+      this.authService.logout();
       this.toastService.error("Sessão expirada");
       return false;
     }
