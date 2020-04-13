@@ -14,8 +14,12 @@ export class SolicitacaoDeExame {
 
   constructor(solicitacaoDeExame?: any) {
     this._id = solicitacaoDeExame?._id;
-    this.idPaciente = new Paciente(solicitacaoDeExame?.idPaciente);
-    this.idMedico = new Medico(solicitacaoDeExame?.idMedico);
+    this.idPaciente = solicitacaoDeExame?.idPaciente
+      ? new Paciente(solicitacaoDeExame?.idPaciente)
+      : undefined;
+    this.idMedico = solicitacaoDeExame?.idMedico
+      ? new Medico(solicitacaoDeExame?.idMedico)
+      : undefined;
     this.exames = solicitacaoDeExame?.exames;
     this.nomeArquivoResultado = solicitacaoDeExame?.nomeArquivoResultado;
     this.data = formatToNgbDate(solicitacaoDeExame?.data);

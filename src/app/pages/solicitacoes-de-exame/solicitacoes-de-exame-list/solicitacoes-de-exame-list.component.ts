@@ -68,9 +68,9 @@ export class SolicitacoesDeExameListComponent implements OnInit {
 
   ngOnInit() {
     this.selectedFilterMedico = this.prevSelectedFilterMedico =
-      history.state?.data?.medico || new Medico();
+      history.state?.data?.medico || undefined;
     this.selectedFilterPaciente = this.prevSelectedFilterPaciente =
-      history.state?.data?.paciente || new Paciente();
+      history.state?.data?.paciente || undefined;
 
     this.page = this.prevPage = 1;
     this.selectedFilterDate = this.prevSelectedFilterDate = null;
@@ -79,23 +79,16 @@ export class SolicitacoesDeExameListComponent implements OnInit {
 
   ngDoCheck() {
     if (
-      this.prevSelectedFilterMedico &&
-      this.selectedFilterMedico &&
-      this.prevSelectedFilterPaciente &&
-      this.selectedFilterPaciente
+      this.page !== this.prevPage ||
+      this.selectedFilterDate !== this.prevSelectedFilterDate ||
+      this.selectedFilterMedico?._id !== this.prevSelectedFilterMedico?._id ||
+      this.selectedFilterPaciente?._id !== this.prevSelectedFilterPaciente?._id
     ) {
-      if (
-        this.page !== this.prevPage ||
-        this.selectedFilterDate !== this.prevSelectedFilterDate ||
-        this.selectedFilterMedico._id !== this.prevSelectedFilterMedico._id ||
-        this.selectedFilterPaciente._id !== this.prevSelectedFilterPaciente._id
-      ) {
-        this.getSolicitacoesDeExameList();
-        this.prevPage = this.page;
-        this.prevSelectedFilterDate = this.selectedFilterDate;
-        this.prevSelectedFilterMedico = this.selectedFilterMedico;
-        this.prevSelectedFilterPaciente = this.selectedFilterPaciente;
-      }
+      this.getSolicitacoesDeExameList();
+      this.prevPage = this.page;
+      this.prevSelectedFilterDate = this.selectedFilterDate;
+      this.prevSelectedFilterMedico = this.selectedFilterMedico;
+      this.prevSelectedFilterPaciente = this.selectedFilterPaciente;
     }
   }
 
@@ -104,8 +97,8 @@ export class SolicitacoesDeExameListComponent implements OnInit {
 
     this.solicitacoesDeExameService
       .getSolicitacoesDeExameList({
-        idPaciente: this.selectedFilterPaciente._id,
-        idMedico: this.selectedFilterMedico._id,
+        idPaciente: this.selectedFilterPaciente?._id,
+        idMedico: this.selectedFilterMedico?._id,
         data: this.selectedFilterDate,
         page: this.page,
       })
@@ -189,11 +182,11 @@ export class SolicitacoesDeExameListComponent implements OnInit {
   }
 
   clearMedico(): void {
-    this.selectedFilterMedico = new Medico();
+    this.selectedFilterMedico = undefined;
   }
 
   clearPaciente(): void {
-    this.selectedFilterPaciente = new Paciente();
+    this.selectedFilterPaciente = undefined;
   }
 
   openSolicitacaoDeExameModal({

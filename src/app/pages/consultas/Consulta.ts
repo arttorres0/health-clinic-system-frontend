@@ -16,19 +16,25 @@ export class Consulta {
 
   constructor(consulta?: any) {
     this._id = consulta?._id;
-    this.idPaciente = new Paciente(consulta?.idPaciente);
-    this.idMedico = new Medico(consulta?.idMedico);
+    this.idPaciente = consulta?.idPaciente
+      ? new Paciente(consulta?.idPaciente)
+      : undefined;
+    this.idMedico = consulta?.idMedico
+      ? new Medico(consulta?.idMedico)
+      : undefined;
     this.data = formatToNgbDate(consulta?.data);
     this.hora = consulta?.hora;
     this.status = consulta?.status;
     this.tipo = consulta?.tipo;
-    this.idConvenio = new Convenio(consulta?.idConvenio);
+    this.idConvenio = consulta?.idConvenio
+      ? new Convenio(consulta?.idConvenio)
+      : undefined;
   }
 }
 
 export enum ViewModeTypes {
   List,
-  Day
+  Day,
 }
 
 export const ConsultaTypes = ["PARTICULAR", "CONVENIO", "RETORNO"];

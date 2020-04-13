@@ -7,7 +7,7 @@ import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { Consulta } from "./Consulta";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class ConsultasService {
   private consultasUrl = environment.serverUrl + "/consultas";
@@ -17,7 +17,7 @@ export class ConsultasService {
   getConsultasDay({
     idPaciente,
     idMedico,
-    data
+    data,
   }: {
     idPaciente?: string;
     idMedico?: string;
@@ -37,7 +37,7 @@ export class ConsultasService {
   getConsultasList({
     idPaciente,
     idMedico,
-    page
+    page,
   }: {
     idPaciente?: string;
     idMedico?: string;
@@ -64,7 +64,7 @@ export class ConsultasService {
       idMedico: consulta.idMedico._id,
       data: formatToStringDate(consulta.data),
       hora: consulta.hora,
-      tipo: consulta.tipo
+      tipo: consulta.tipo,
     };
 
     if (consulta.tipo === "CONVENIO" && consulta.idConvenio)
@@ -81,8 +81,12 @@ export class ConsultasService {
     body["idMedico"] = consulta.idMedico._id;
     body["data"] = formatToStringDate(consulta.data);
 
-    if (consulta.tipo === "CONVENIO" && consulta.idConvenio)
-      body["idConvenio"] = consulta.idConvenio._id;
+    if (consulta.tipo === "CONVENIO") {
+      if (consulta.idConvenio) body["idConvenio"] = consulta.idConvenio._id;
+    } else {
+      delete body["idConvenio"];
+    }
+
     if (status) body["status"] = status;
 
     return this.http.put(this.consultasUrl + "/" + consulta._id, body);

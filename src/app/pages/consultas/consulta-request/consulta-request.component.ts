@@ -85,16 +85,11 @@ export class ConsultaRequestComponent implements OnInit {
     if (this.prefilledConsultaId) {
       this.getConsulta(this.prefilledConsultaId);
     } else {
-      this.prefilledData
-        ? (this.consulta.data = this.prefilledData)
-        : new Date();
-      if (this.prefilledHora) this.consulta.hora = this.prefilledHora;
-      this.prefilledMedico
-        ? (this.consulta.idMedico = this.prefilledMedico)
-        : (this.consulta.idMedico = new Medico());
-      this.prefilledPaciente
-        ? (this.consulta.idPaciente = this.prefilledPaciente)
-        : (this.consulta.idPaciente = new Paciente());
+      this.prefilledData && (this.consulta.data = this.prefilledData);
+      this.prefilledHora && (this.consulta.hora = this.prefilledHora);
+      this.prefilledMedico && (this.consulta.idMedico = this.prefilledMedico);
+      this.prefilledPaciente &&
+        (this.consulta.idPaciente = this.prefilledPaciente);
     }
   }
 
@@ -114,7 +109,7 @@ export class ConsultaRequestComponent implements OnInit {
     );
   }
 
-  formatterMedico = (medico: Medico): string => medico.nome;
+  formatterMedico = (medico: Medico): string => medico?.nome;
 
   clickFilterMedicoEvent($event, typeaheadInstance) {
     if (typeaheadInstance.isPopupOpen()) {
@@ -147,7 +142,7 @@ export class ConsultaRequestComponent implements OnInit {
     );
   };
 
-  formatterPaciente = (paciente: Paciente): string => paciente.nome;
+  formatterPaciente = (paciente: Paciente): string => paciente?.nome;
 
   clickFilterPacienteEvent($event, typeaheadInstance) {
     if (typeaheadInstance.isPopupOpen()) {
@@ -182,7 +177,7 @@ export class ConsultaRequestComponent implements OnInit {
     );
   };
 
-  formatterConvenio = (convenio: Convenio): string => convenio.nome;
+  formatterConvenio = (convenio: Convenio): string => convenio?.nome;
 
   clickFilterConvenioEvent($event, typeaheadInstance) {
     if (typeaheadInstance.isPopupOpen()) {

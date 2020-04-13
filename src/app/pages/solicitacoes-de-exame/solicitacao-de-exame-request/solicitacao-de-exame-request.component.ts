@@ -113,7 +113,7 @@ export class SolicitacaoDeExameRequestComponent implements OnInit {
     );
   }
 
-  formatterMedico = (medico: Medico): string => medico.nome;
+  formatterMedico = (medico: Medico): string => medico?.nome;
 
   clickFilterMedicoEvent($event, typeaheadInstance) {
     if (typeaheadInstance.isPopupOpen()) {
@@ -146,7 +146,7 @@ export class SolicitacaoDeExameRequestComponent implements OnInit {
     );
   };
 
-  formatterPaciente = (paciente: Paciente): string => paciente.nome;
+  formatterPaciente = (paciente: Paciente): string => paciente?.nome;
 
   clickFilterPacienteEvent($event, typeaheadInstance) {
     if (typeaheadInstance.isPopupOpen()) {

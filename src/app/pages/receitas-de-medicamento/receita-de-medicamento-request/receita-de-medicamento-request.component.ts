@@ -96,7 +96,7 @@ export class ReceitaDeMedicamentoRequestComponent implements OnInit {
       );
   }
 
-  formatterMedico = (medico: Medico): string => medico.nome;
+  formatterMedico = (medico: Medico): string => medico?.nome;
 
   clickFilterMedicoEvent($event, typeaheadInstance) {
     if (typeaheadInstance.isPopupOpen()) {
@@ -129,7 +129,7 @@ export class ReceitaDeMedicamentoRequestComponent implements OnInit {
     );
   };
 
-  formatterPaciente = (paciente: Paciente): string => paciente.nome;
+  formatterPaciente = (paciente: Paciente): string => paciente?.nome;
 
   clickFilterPacienteEvent($event, typeaheadInstance) {
     if (typeaheadInstance.isPopupOpen()) {
@@ -165,7 +165,7 @@ export class ReceitaDeMedicamentoRequestComponent implements OnInit {
   };
 
   formatterMedicamento = (medicamento: Medicamento): string =>
-    medicamento.nomeGenerico && medicamento.nomeDeFabrica
+    medicamento?.nomeGenerico && medicamento?.nomeDeFabrica
       ? medicamento.nomeGenerico + " | " + medicamento.nomeDeFabrica
       : null;
 

@@ -14,9 +14,15 @@ export class ReceitaDeMedicamento {
 
   constructor(receitaDeMedicamento?: any) {
     this._id = receitaDeMedicamento?._id;
-    this.idPaciente = new Paciente(receitaDeMedicamento?.idPaciente);
-    this.idMedico = new Medico(receitaDeMedicamento?.idMedico);
-    this.idMedicamento = new Medicamento(receitaDeMedicamento?.idMedicamento);
+    this.idPaciente = receitaDeMedicamento?.idPaciente
+      ? new Paciente(receitaDeMedicamento?.idPaciente)
+      : undefined;
+    this.idMedico = receitaDeMedicamento?.idMedico
+      ? new Medico(receitaDeMedicamento?.idMedico)
+      : undefined;
+    this.idMedicamento = receitaDeMedicamento?.idMedicamento
+      ? new Medicamento(receitaDeMedicamento?.idMedicamento)
+      : undefined;
     this.data = formatToNgbDate(receitaDeMedicamento?.data);
     this.observacao = receitaDeMedicamento?.observacao;
   }
